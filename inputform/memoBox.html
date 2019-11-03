@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <div class="modal">
+            <div class="modal__container">
+              <div class="modal__content">
+                <form>
+                  <ul class="form-list">
+                    <li class="form-list__row"> <!-- <label>출발</label> -->
+                      
+                      <label class="select-map">
+                        <button class="toggle-visibility">
+                            <img src="https://img.icons8.com/color/50/000000/note.png" width="27px" height="30px" align="right">
+                        </button>
+                        <input id = "source" type="text" placeholder="출발 장소" name=""/>
+                      </label>
+                    </li>
+                    <li class="form-list__row"> <!-- <label>도착</label> -->
+                      <label class="select-map">
+                          <button class="toggle-visibility">
+                              <img src="https://img.icons8.com/color/50/000000/note.png" width="27px" height="30px" align="right">
+                          </button>
+                        <input id = "dest" type="text" placeholder="도착 장소" name="" />
+                      </label>
+                    </li>
+
+
+                    <li class="form-list__row form-list__row--inline"> <!-- <label>비용</label> -->
+                      <div>
+                          <input id="cost" type="text" placeholder="비용"/>
+                      </div>
+                      <div> <!-- <label>시간</label> -->
+                        <input id="time" type="text" placeholder="시간" name="" />
+                      </div>
+                      <div>
+                          <select id="transportation">
+                              <option value="택시">택시</option>
+                              <option value="버스">버스</option>
+                              <option value="기차">기차</option>
+                              <option value="전철">전철</option>
+                              <option value="도보">도보</option>
+                              <option value="자전거">자전거</option>
+                              <option value="비행기">자전거</option>
+                              <option value="기타">기타</option>
+                          </select>
+                      </div>
+                    </li>
+                    <img src="https://img.icons8.com/color/50/000000/note.png" width="27px" height="30px" align="right">
+                  </ul>
+                </form>
+
+              </div> <!-- END: .modal__content -->
+            </div> <!-- END: .modal__container -->
+          </div> <!-- END: .modal -->
+</html>
