@@ -1,7 +1,7 @@
-
 var memoBoxIdx = 1;
 var totalCosts = 0;
 var totalTime = 0;
+var memoKey;
 
 initialize();
 
@@ -12,7 +12,7 @@ function initialize(){
                 calculateTotalCost();
             });
             $(".memoBox_0").find("#time").on("keyup", function(){
-                calculateTotalCost();
+                calculateTotalTime();
             });
         });
         $("#plusButton").click(function(){
@@ -21,9 +21,17 @@ function initialize(){
         $("#clipBoard").click(function(){
             copyToClipBoard();
         });
+        $("#clear").click(function(){
+            clearAllMemos();
+        });
+        $("#save").click(function(){
+            saveMemos();
+        });
+        $("#load").click(function(){
+            loadMemos();
+        });
     });
 }
-
 function createMemoBox(parentDivId, memoBoxHtmlPath) {
     var parentDiv = document.getElementById(parentDivId);
     var memoBoxDiv = document.createElement('div');
@@ -68,7 +76,7 @@ function calculateTotalTime(){
 }
 
 function transformMemoIntoString(){
-    var str = "";
+    var str = "총 경유지 수 : " + parseInt(memoBoxIdx-1) + "\n" + "총 비용 : " + totalCosts +"\n" + "총 시간 : " + parseInt(totalTime/60) + " 시간 " + parseInt(totalTime%60) + " 분 \n\n";
     for(var i = 0; i< memoBoxIdx; i++) {
         var source = $(".memoBox_"+i).find("#source").val();
         var dest = $(".memoBox_"+i).find("#dest").val();
@@ -89,4 +97,60 @@ function copyToClipBoard(){
     document.execCommand('copy');
     document.body.removeChild(temp);
     alert("Copy Success!");
+}
+
+function clearAllMemos(){
+    for(var i = 1; i< memoBoxIdx; i++) {
+        $(".memoBox_"+i).remove();
+    }
+    memoBoxIdx = 1;
+    calculateTotalCost();
+    calculateTotalTime();
+}
+
+function transforMemoIntoDataFormat(){
+    var str = parseInt(memoBoxIdx)+"\n";
+    for(var i = 0; i< memoBoxIdx; i++) {
+        var source = $(".memoBox_"+i).find("#source").val();
+        var dest = $(".memoBox_"+i).find("#dest").val();
+        var transport = $(".memoBox_"+i).find("#transportation").val();
+        var cost = $(".memoBox_"+i).find("#cost").val();
+        var hour = $(".memoBox_"+i).find("#time").val().split(":")[0];
+        var min = $(".memoBox_"+i).find("#time").val().split(":")[1];
+        str += source + "\n" + dest + "\n" + transport + "\n" + cost + "\n" +  hour + ":" + min +"\n";
+    }
+    return str;
+}
+
+function saveMemos(){
+    memoKey = $("#memoTitle").val();
+    if(memoKey.length==0)
+        memoKey = "default";
+    var value = transforMemoIntoDataFormat();
+
+    whale.storage.local.set({"default" : value}, function() {
+        console.log(memoKey);
+        console.log(value);
+    });
+}
+
+function loadMemos(){
+    whale.storage.local.get(memoKey.toString(), function(result) {
+        var value = result.default;
+        console.log(value);
+        var numMemo = value.split("\n")[0];
+        for(var i = 0; i < numMemo ; i++){
+            var source = value.split("\n")[(i*5)+1];
+            var dest = value.split("\n")[(i*5)+2];
+            var transport = value.split("\n")[(i*5)+3];
+            var cost = value.split("\n")[(i*5)+4];
+            var hour = value.split("\n")[(i*5)+5].split(":")[0];
+            var min = value.split("\n")[(i*5)+5].split(":")[1];
+            console.log(source);
+            console.log(dest);
+            console.log(transport);
+            console.log(cost);
+            console.log(hour + ":" + min);
+        }
+    });
 }

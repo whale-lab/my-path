@@ -25,7 +25,7 @@ body {
 }
 
 .wrap {
-  position: absolute; 
+  position: absolute;
   width: 100%;
   height: 2000px;
 }
@@ -35,16 +35,16 @@ body {
   /*top: 30px;*/
   top: 85%;
   margin: auto;
- 
+
   background: #fff;
     border-radius: 2px;
   display: block;
   height:60px;
   width:300px;
-  
+
   padding:20px;
   border-radius:4px;
-  
+
 }
 
 .shadow-3 {
@@ -57,28 +57,28 @@ body {
 
 
 
-#overlay-back { 
-        position   : absolute; 
-        top        : 0; 
-        left       : 0; 
-        width      : 100%; 
-        height     : 100%; 
-        background : #000; 
-        opacity    : 0.6; 
-        filter     : alpha(opacity=30); 
+#overlay-back {
+        position   : absolute;
+        top        : 0;
+        left       : 0;
+        width      : 100%;
+        height     : 100%;
+        background : #000;
+        opacity    : 0.6;
+        filter     : alpha(opacity=30);
         z-index    : 3;
         display   : none;
     }
-    
-    #overlay { 
-        position : absolute; 
-        top      : 0; 
-        left     : 0; 
-        width    : 100%; 
-        height   : 100%; 
+
+    #overlay {
+        position : absolute;
+        top      : 0;
+        left     : 0;
+        width    : 100%;
+        height   : 100%;
         z-index  : 10;
         display  : none;
-    } 
+    }
 
     .sidenav {
         height: 100%;
@@ -135,12 +135,12 @@ body {
   ul {
     list-style: none;
   }
-  
+
   a {
     text-decoration: none;
   }
-  
-  
+
+
   /* 아코디언 메뉴 배경 디자인 */
   .accordion-menu {
     width: 100%;
@@ -181,7 +181,7 @@ body {
       left: auto;
     }
   }
-  
+
   .submenuItems {
     display: none;
     background: white;
@@ -189,13 +189,13 @@ body {
       border-bottom: 1px solid #B6B6B6;
     }
   }
-  
+
   .submenuItems a {
     display: block;
     color: #727272;
     padding: 12px 12px 12px 0px;
     transition: all 0.2s ease-out;
-    
+
     /*
     &:hover {
       background-color: #CDDC39;
@@ -223,7 +223,7 @@ body {
         <div class="side-upperbar-background" >
             <div class="sidebar-user-info"> apple님</div>
             <a href="javascript:void(0)" id="close-button" class="closebtn"> &times; </a>
-        </div>  
+        </div>
 
 
         <ul class="accordion-menu">
@@ -232,20 +232,20 @@ body {
                     <img src="https://img.icons8.com/material/48/000000/opened-folder--v1.png" width="32px" hegith="32px"> 기본폴더
                     <i aria-hidden="true"></i>
                 </div>
-            
+
                 <ul class="submenuItems">
                     <li><a href="#"> <img src="https://img.icons8.com/ios/24/000000/file.png" width="20px" hegith="20px" > 서울 여행 </a></li>
                     <li><a href="#"> 강원도 여행 </a></li>
                     <li><a href="#"> 제주도 여행 </a></li>
                 </ul>
             </li>
-        
+
             <li>
                 <div class="dropdownlink"><i aria-hidden="true"></i> 나의 일정
                     <i aria-hidden="true"></i>
                 </div>
-            
-                <ul class="submenuItems"> 
+
+                <ul class="submenuItems">
                     <li><a href="#"> Test1 </a></li>
                     <li><a href="#"> Test2</a></li>
                     <li><a href="#"> Test3</a></li>
@@ -274,18 +274,28 @@ body {
 
     <div>
         <div>
-            <input type="text" class="form-control" id="usr" placeholder="서울 가는 길">
+            <input id="memoTitle" type="text" class="form-control" id="usr" placeholder="서울 가는 길">
         </div>
         <div id="memoContainer">
             <div class="memoBox_0"></div>
         </div>
         <div>
-            <button id="plusButton" type="button" class="btn btn-primary">폴더추가</button>
+            <button id="plusButton" type="button" class="btn btn-primary">Primary</button>
         </div>
         <div><br/></div>
-        
         <div>
             <button id="clipBoard" type="button" class="btn btn-primary">ClipBoard</button>
+        </div>
+        <div><br/></div>
+        <div>
+            <button id="clear" type="button" class="btn btn-primary">Clear</button>
+        <div><br/></div>
+        <div>
+            <button id="save" type="button" class="btn btn-primary">Save</button>
+        </div>
+        <div><br/></div>
+        <div>
+            <button id="load" type="button" class="btn btn-primary">Load</button>
         </div>
     </div>
 
