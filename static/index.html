@@ -54,6 +54,157 @@ body {
   -o-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
+
+
+
+#overlay-back { 
+        position   : absolute; 
+        top        : 0; 
+        left       : 0; 
+        width      : 100%; 
+        height     : 100%; 
+        background : #000; 
+        opacity    : 0.6; 
+        filter     : alpha(opacity=30); 
+        z-index    : 3;
+        display   : none;
+    }
+    
+    #overlay { 
+        position : absolute; 
+        top      : 0; 
+        left     : 0; 
+        width    : 100%; 
+        height   : 100%; 
+        z-index  : 10;
+        display  : none;
+    } 
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        background-color: #f5f5f5;
+        overflow-x: hidden;
+        transition: 0.2s;
+    }
+
+    .sidenav a {
+        padding: 10px 5px 10px 10px; /* 8px 8px 8px 32px;*/
+        margin: 0px 0px 0px 0px;
+        text-decoration: none;
+        font-size: 15px;
+        color: #818181;
+        display: block;
+        transition: 0.2s;
+    }
+/*
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+*/
+
+    .sidenav .closebtn {
+        /*position: absolute;*/
+        right: 5px;
+        font-size: 30px;
+        float: right;
+    }
+
+    .side-upperbar-background {
+        background-color: #00C73C;
+        height: 55px;
+        padding: 10px;
+    }
+
+    .sidebar-user-info {
+        font-size: 15px;
+        color: white;
+        float: left;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav a {font-size: 18px;}
+    }
+
+    /* 아코디언 메뉴 디자인 */
+
+  ul {
+    list-style: none;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  
+  /* 아코디언 메뉴 배경 디자인 */
+  .accordion-menu {
+    width: 100%;
+    max-width: 350px;
+    margin: 0px auto 0px;
+    background: #fff;
+    border-radius: 4px;
+    padding: 0px;
+  }
+
+  .accordion-menu li.open .dropdownlink {
+    color: black;
+    /*
+    .fa-chevron-down {
+      transform: rotate(180deg);
+    }
+    */
+  }
+  .accordion-menu li:last-child .dropdownlink {
+    border-bottom: 0;
+  }
+  .dropdownlink {
+    cursor: pointer;
+    display: block;
+    padding: 15px 15px 15px 0px;
+    font-size: 18px;
+    border-bottom: 0.1px solid #ccc;
+    color: #212121;
+    position: relative;
+    transition: all 0.4s ease-out;
+    i {
+      position: absolute;
+      top: 17px;
+      left: 16px;
+    }
+    .fa-chevron-down {
+      right: 12px;
+      left: auto;
+    }
+  }
+  
+  .submenuItems {
+    display: none;
+    background: white;
+    li {
+      border-bottom: 1px solid #B6B6B6;
+    }
+  }
+  
+  .submenuItems a {
+    display: block;
+    color: #727272;
+    padding: 12px 12px 12px 0px;
+    transition: all 0.2s ease-out;
+    
+    /*
+    &:hover {
+      background-color: #CDDC39;
+      color: #fff;
+    }
+    */
+  } /* 아코디언 메뉴 디자인 끝 */
+
+
 </style>
 
 </head>
@@ -63,8 +214,63 @@ body {
             <a class="navbar-brand" href="#">
                 <span style="color: white">나의 가는 길</span>
             </a>
-            <i class="fas fa-bars"></i>
+            <!-- <i class="fas fa-bars"></i> -->
+            <span id="open-button" style="font-size:30px;cursor:pointer; float: right;">&#9776; </span>
     </nav>
+
+    <div id="overlay-back"></div>
+    <div id="sidebar" class="sidenav">
+        <div class="side-upperbar-background" >
+            <div class="sidebar-user-info"> apple님</div>
+            <a href="javascript:void(0)" id="close-button" class="closebtn"> &times; </a>
+        </div>  
+
+
+        <ul class="accordion-menu">
+            <li>
+                <div class="dropdownlink"><i aria-hidden="true"></i>
+                    <img src="https://img.icons8.com/material/48/000000/opened-folder--v1.png" width="32px" hegith="32px"> 기본폴더
+                    <i aria-hidden="true"></i>
+                </div>
+            
+                <ul class="submenuItems">
+                    <li><a href="#"> <img src="https://img.icons8.com/ios/24/000000/file.png" width="20px" hegith="20px" > 서울 여행 </a></li>
+                    <li><a href="#"> 강원도 여행 </a></li>
+                    <li><a href="#"> 제주도 여행 </a></li>
+                </ul>
+            </li>
+        
+            <li>
+                <div class="dropdownlink"><i aria-hidden="true"></i> 나의 일정
+                    <i aria-hidden="true"></i>
+                </div>
+            
+                <ul class="submenuItems"> 
+                    <li><a href="#"> Test1 </a></li>
+                    <li><a href="#"> Test2</a></li>
+                    <li><a href="#"> Test3</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <div class="dropdownlink"><i aria-hidden="true"></i>
+                    <button type="button">폴더추가</button>
+                </div>
+            </li>
+
+            <li>
+                <div class="dropdownlink"><i aria-hidden="true"></i> 로그아웃
+                </div>
+            </li>
+
+            <li>
+                <div class="dropdownlink"><i aria-hidden="true"></i> 고객센터
+                </div>
+            </li>
+
+        </ul>
+    </div><!-- 사이드바 끝 -->
+
 
     <div>
         <div>
@@ -74,9 +280,10 @@ body {
             <div class="memoBox_0"></div>
         </div>
         <div>
-            <button id="plusButton" type="button" class="btn btn-primary">Primary</button>
+            <button id="plusButton" type="button" class="btn btn-primary">폴더추가</button>
         </div>
         <div><br/></div>
+        
         <div>
             <button id="clipBoard" type="button" class="btn btn-primary">ClipBoard</button>
         </div>
@@ -90,6 +297,7 @@ body {
     </div>
 
 
-
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/accordion_menu.js"></script>
 </body>
 </html>
