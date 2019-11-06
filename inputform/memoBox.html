@@ -9,25 +9,28 @@
                     <li class="form-list__row"> <!-- <label>출발</label> -->
                       <label class="select-map">
                         <button class="toggle-visibility">
-                            <img src="../images/icon-02.png" width="23px" height="25px" align="right">
+                            <img src="../images/icon-02.png" width="17px" height="25px" align="right">
                         </button>
-                        <input id = "source" type="text" placeholder="출발 장소" name=""/>
+                        <input id = "source" type="text" placeholder="출발 장소" name="" autocomplete="off"/>
                       </label>
                     </li>
                     <li class="form-list__row"> <!-- <label>도착</label> -->
                       <label class="select-map">
                           <button class="toggle-visibility">
-                              <img src="../images/icon-02.png" width="23px" height="25px" align="right">
+                              <img src="../images/icon-02.png" width="17px" height="25px" align="right">
                           </button>
-                        <input id = "dest" type="text" placeholder="도착 장소" name="" />
+                        <input id = "dest" type="text" placeholder="도착 장소" name="" autocomplete="off"/>
                       </label>
                     </li>
                     <li class="form-list__row form-list__row--inline"> <!-- <label>비용</label> -->
                       <div>
-                          <input id="cost" type="text" placeholder="비용"/>
+                          <input id="cost" type="text" placeholder="비용" autocomplete="off"/>
                       </div>
-                      <div> <!-- <label>시간</label> -->
-                        <input id="time" type="text" placeholder="시간" name="" />
+                      <div>                                           <!-- <label>시간</label> -->
+                        <input id="time_hour" type="text" placeholder="시" name="" autocomplete="off"/>
+                      </div>
+                      <div>                                           <!-- <label>시간</label> -->
+                        <input id="time_min" type="text" placeholder="분" name="" autocomplete="off"/>
                       </div>
                       <div>
                           <select id="transportation">
@@ -37,19 +40,18 @@
                               <option value="전철">전철</option>
                               <option value="도보">도보</option>
                               <option value="자전거">자전거</option>
-                              <option value="비행기">자전거</option>
                               <option value="기타">기타</option>
                           </select>
                       </div>
                     </li>
                     <li class="form-list__row" align="right">
-                        <button style="border:none" align="right">
+                        <button style="border:none; background-color: white;" align="right" >
                             <img src="../images/icon-03.png" width="25px" height="27px">
                         </button>
-                        <button style="border:none" align="right">
+                        <button style="border:none; background-color: white;" align="right">
                             <img src="../images/icon-05.png" width="25px" height="27px">
                         </button>
-                        <button style="border:none" align="right">
+                        <button style="border:none; background-color: white;" align="right">
                             <img src="../images/icon-04.png" width="25px" height="27px">
                         </button>
                     </li>
