@@ -8,7 +8,7 @@
                   <ul class="form-list">
                     <li class="form-list__row"> <!-- <label>출발</label> -->
                       <label class="select-map">
-                        <button class="toggle-visibility">
+                        <button id="sourceButton" class="toggle-visibility">
                             <img src="../images/icon-02-ver2.png" width="24px" height="24px" align="right">
                         </button>
                         <input id = "source" type="text" placeholder="출발 장소" name="" autocomplete="off"/>
@@ -16,7 +16,7 @@
                     </li>
                     <li class="form-list__row"> <!-- <label>도착</label> -->
                       <label class="select-map">
-                          <button class="toggle-visibility">
+                          <button id="destButton" class="toggle-visibility">
                               <img src="../images/icon-02-ver2.png" width="24px" height="24px" align="right">
                           </button>
                         <input id = "dest" type="text" placeholder="도착 장소" name="" autocomplete="off"/>
@@ -47,13 +47,13 @@
                       </div>
                     </li>
                     <li class="form-list__row" align="right" >
-                        <button style="border:none; background-color: white; user-select: none;" align="right" >
+                        <button id="subMemo" style="border:none; background-color: white; user-select: none;" align="right" type="button">
                             <img src="../images/icon-03.png" width="25px" height="27px">
                         </button>
-                        <button style="border:none; background-color: white;  user-select: none;" align="right">
+                        <button id="createMemo" style="border:none; background-color: white;  user-select: none;" align="right" type="button">
                             <img src="../images/icon-05.png" width="25px" height="27px">
                         </button>
-                        <button style="border:none; background-color: white;  user-select: none;" align="right">
+                        <button id="deleteMemo" style="border:none; background-color: white;  user-select: none;" align="right" type="button">
                             <img src="../images/icon-04.png" width="25px" height="27px">
                         </button>
                     </li>
