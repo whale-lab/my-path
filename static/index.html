@@ -349,7 +349,7 @@
         </div>
 
         <ul class="accordion-menu">
-            <li>
+            <li id="default_folder">
                 <div class="dropdownlink">
                     <i aria-hidden="true"></i>
                     <img src="/images/folder_main.png" width="27px" hegith="27px"> 기본폴더
@@ -357,13 +357,10 @@
                 </div>
 
                 <ul class="submenuItems">
-                    <li><a href="#"> <img src="/images/folder_sub.png" width="12px" hegith="12px">  서울 여행   </a></li>
-                    <li><a href="#"> <img src="/images/folder_sub.png" width="12px" hegith="12px">  강원도 여행 </a></li>
-                    <li><a href="#"> <img src="/images/folder_sub.png" width="12px" hegith="12px">  제주도 여행 </a></li>
                 </ul>
             </li>
 
-            <li>
+            <li id="my_folder">
                 <div class="dropdownlink">
                     <i aria-hidden="true"></i> 
                     나의 일정
@@ -377,7 +374,7 @@
                 </ul>
             </li>
             
-            <li>
+            <li id="total_folder">
                 <div class="dropdownlink"> 
                     <img src="/images/folder_all.png" width="27px" hegith="27px"> 전체 폴더
                     <i aria-hidden="true"></i> 
@@ -426,11 +423,11 @@
     <!-- 그림자 박스 -->
     <div class="wrap"> 
         <div class="bottom-background-box">
-            <div class="bottom-content-box-left" >
+            <div class="bottom-content-box-left">
                 <span class="bottom-box-title"> 총 시간</span>
-                <span class="bottom-box-content" id="totalTime">  시  분</span>
+                <span class="bottom-box-content" id="totalTime">     시간     분</span>
             </div>
-            <div class="bottom-content-box-right" id="totalTime">
+            <div class="bottom-content-box-right">
                 <span class="bottom-box-title"> 총 금액</span>
                 <span class="bottom-box-content" id="totalCost"> 원</span>
             </div>

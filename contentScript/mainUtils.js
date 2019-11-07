@@ -36,30 +36,28 @@ function initialize(){
             copyToClipBoard($("#memoContainer")[0]);
         });
         $("#clear").click(function(){
-            clearAllMemos();
+            clearAllMemos($("#memoContainer")[0]);
         });
         $("#save").click(function(){
-            saveMemos();
+            saveMemos($("#memoContainer")[0]);
         });
-        $("#load").click(function(){
-            loadMemos();
-        });
+
+
+
+
     });
 }
 function createMemoBox(currElement) {
     var memoBoxDiv = document.createElement('div');
     memoBoxDiv.setAttribute("class", "memoBox_"+(memoBoxIdx));
-    if(currElement.nextElementSibling === null){
-        alert("Last Element!");
-    }
     currElement.parentNode.insertBefore(memoBoxDiv, currElement.nextSibling);
     $(".memoBox_"+memoBoxIdx).load("../inputform/memoBox.html", function(){
         $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(){
-            var source = $(".memoBox_"+idx).find("#source").val();
+            var source = $(".memoBox_"+memoBoxIdx).find("#source").val();
             createTabMenu(source);
         });
         $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(){
-            var dest = $(".memoBox_"+idx).find("#dest").val();
+            var dest = $(".memoBox_"+memoBoxIdx).find("#dest").val();
             createTabMenu(dest);
         });
         $(".memoBox_"+memoBoxIdx).find("#cost").on("keyup", function(){
@@ -81,12 +79,52 @@ function createMemoBox(currElement) {
     });
 }
 
+function createMemoBoxWithData(currElement, data) {
+    var memoBoxDiv = document.createElement('div');
+    console.log("memoBoxIdx : " + memoBoxIdx);
+    memoBoxDiv.setAttribute("class", "memoBox_"+(memoBoxIdx));
+    currElement.parentNode.insertBefore(memoBoxDiv, currElement.nextSibling);
+    $(".memoBox_"+memoBoxIdx).load("../inputform/memoBox.html", function(){
+        $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(){
+            var source = $(".memoBox_"+memoBoxIdx).find("#source").val();
+            createTabMenu(source);
+        });
+        $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(){
+            var dest = $(".memoBox_"+memoBoxIdx).find("#dest").val();
+            createTabMenu(dest);
+        });
+        $(".memoBox_"+memoBoxIdx).find("#cost").on("keyup", function(){
+            calculateTotalCost(memoBoxDiv.parentNode);
+        });
+        $(".memoBox_"+memoBoxIdx).find("#time_hour").on("keyup", function(){
+            calculateTotalHour(memoBoxDiv.parentNode);
+        });
+        $(".memoBox_"+memoBoxIdx).find("#time_min").on("keyup", function(){
+            calculateTotalMin(memoBoxDiv.parentNode);
+        });
+        $(".memoBox_"+memoBoxIdx).find("#createMemo").on("click", function(){
+            createMemoBox(memoBoxDiv);
+            alert("Create Memo Click!");
+        });
+        $(".memoBox_"+memoBoxIdx).find("#deleteMemo").on("click", function(){
+            deleteMemoBox(memoBoxDiv);
+            alert("Delete Memo Click!");
+        });
+        $(".memoBox_"+memoBoxIdx).find("#source").val(data[0]);
+        $(".memoBox_"+memoBoxIdx).find("#dest").val(data[1]);
+        $(".memoBox_"+memoBoxIdx).find("#transportation select").val(data[2]);
+        $(".memoBox_"+memoBoxIdx).find("#cost").val(data[3]);
+        $(".memoBox_"+memoBoxIdx).find("#time_hour").val(data[4]);
+        $(".memoBox_"+memoBoxIdx).find("#time_min").val(data[5]);
+        memoBoxIdx += 1;
+    });
+}
+
 function deleteMemoBox(currElement){
-    alert(currElement.parentNode);
     currElement.parentNode.removeChild(currElement);
-    calculateTotalCost();
-    calculateTotalHour();
-    calculateTotalMin();
+    calculateTotalCost($("#memoContainer")[0]);
+    calculateTotalHour($("#memoContainer")[0]);
+    calculateTotalMin($("#memoContainer")[0]);
 }
 
 function createTabMenu(query){
@@ -162,7 +200,7 @@ function transformMemoIntoString(parentNode){
         var transport = $("."+className).find("#transportation").val();
         var cost = $("."+className).find("#cost").val();
         var hour = $("."+className).find("#time_hour").val();
-        var min = $("."+className).find("#time_hour").val();
+        var min = $("."+className).find("#time_min").val();
 
         str += "출발지 : " + source + "\n" + "도착지 : " + dest + "\n" + "이동수단 : " + transport + "\n" + "비용 : " + cost + "\n" + "시간 : " + hour + " 시간 " + min + " 분 " + "\n\n";
     }
@@ -170,65 +208,84 @@ function transformMemoIntoString(parentNode){
     return str;
 }
 
-function clearAllMemos(){
-    for(var i = 1; i< memoBoxIdx; i++) {
-        $(".memoBox_"+i).remove();
+function clearAllMemos(parentNode){
+
+    $(".memoBox_0").find("#source").val("");
+    $(".memoBox_0").find("#dest").val("");
+    $(".memoBox_0").find("#transportation").val("---");
+    $(".memoBox_0").find("#cost").val("");
+    $(".memoBox_0").find("#time_hour").val("");
+    $(".memoBox_0").find("#time_min").val("");
+
+    for(var i = 1; i < parentNode.children.length; i++){
+        deleteMemoBox(parentNode.children[i]);
     }
     memoBoxIdx = 1;
-    calculateTotalCost();
-    calculateTotalTime();
+    calculateTotalCost($("#memoContainer")[0]);
+    calculateTotalHour($("#memoContainer")[0]);
+    calculateTotalMin($("#memoContainer")[0]);
 }
 
-function transforMemoIntoDataFormat(){
-    var str = parseInt(memoBoxIdx)+"\n";
-    for(var i = 0; i< memoBoxIdx; i++) {
-        var source = $(".memoBox_"+i).find("#source").val();
-        var dest = $(".memoBox_"+i).find("#dest").val();
-        var transport = $(".memoBox_"+i).find("#transportation").val();
-        var cost = $(".memoBox_"+i).find("#cost").val();
-        var hour = $(".memoBox_"+i).find("#time").val().split(":")[0];
-        var min = $(".memoBox_"+i).find("#time").val().split(":")[1];
-        str += source + "\n" + dest + "\n" + transport + "\n" + cost + "\n" +  hour + ":" + min +"\n";
+function transformMemoIntoSaveData(parentNode){
+    var str = $("#memoTitle").val()+"\n";
+    for(var i = 0; i < parentNode.children.length; i++){
+        var className = parentNode.children[i].className;
+        var source = $("."+className).find("#source").val();
+        var dest = $("."+className).find("#dest").val();
+        var transport = $("."+className).find("#transportation").val();
+        var cost = $("."+className).find("#cost").val();
+        var hour = $("."+className).find("#time_hour").val();
+        var min = $("."+className).find("#time_min").val();
+        str += source + " " + dest +" " + transport + " " + cost + " " + hour + " " + min + "\n";
     }
+    alert("Data\n" + str);
     return str;
 }
 
-function saveMemos(){
+function saveMemos(parentNode){
     var memoObject = {};
     var memoKey = $("#memoTitle").val();
     if(memoKey.length==0)
-        memoKey = "default";
-    var value = transforMemoIntoDataFormat();
+        memoKey = "기본 일정";
+    var value = transformMemoIntoSaveData(parentNode);
     memoObject[memoKey] = value;
 
     whale.storage.sync.set(memoObject, function() {
-        alert(memoKey);
-        alert(value);
+        var parentNode = $("#default_folder").find(".submenuItems")[0];
+        var menuElement = document.createElement('li');
+        menuElement.innerHTML = "<a href=\"#\"> <img src=\"/images/folder_sub.png\" width=\"12px\" hegith=\"12px\">  "+ memoKey +"</a></li>";
+        menuElement.onclick = function(){
+            loadMemos(memoKey);
+        };
+        parentNode.insertBefore(menuElement, parentNode.lastChild.nextSibling);
     });
 }
 
-function loadMemos(){
-    whale.storage.sync.get(memoTitle, function(result) {
-        var value = result[memoTitle];
-        alert(value);
-        clearAllMemos();
-        $(".memoBox_0").find("#source").text(value.split("\n")[1]);
-        $(".memoBox_0").find("#dest").text(value.split("\n")[2]);
-        $(".memoBox_0").find("#transportation").val(value.split("\n")[3]);
-        $(".memoBox_0").find("#cost").text(value.split("\n")[4]);
-        $(".memoBox_0").find("#time").text(value.split("\n")[5]);
-        var numMemo = value.split("\n")[0];
-        for(var i = 1; i < numMemo ; i++){
-            createMemoBox();
-            $(".memoBox_"+i).find("#source").text(value.split("\n")[(i*5)+1]);
-            $(".memoBox_"+i).find("#dest").text(value.split("\n")[(i*5)+2]);
-            $(".memoBox_"+i).find("#transportation select").val(value.split("\n")[(i*5)+3]);
-            $(".memoBox_"+i).find("#cost").text(value.split("\n")[(i*5)+4]);
-            $(".memoBox_"+i).find("#time").text(value.split("\n")[(i*5)+5]);
+function loadMemos(memoKey){
+    whale.storage.sync.get(memoKey, function(result) {
+        var value = result[memoKey];
+        clearAllMemos($("#memoContainer")[0]);
+
+        var title = value.split("\n")[0];
+        $("#memoTitle").val(title);
+
+        var firstMemoBox = value.split("\n")[1];
+
+        $(".memoBox_0").find("#source").val(firstMemoBox.split(" ")[0]);
+        $(".memoBox_0").find("#dest").val(firstMemoBox.split(" ")[1]);
+        $(".memoBox_0").find("#transportation select").val(firstMemoBox.split(" ")[2]);
+        $(".memoBox_0").find("#cost").val(firstMemoBox.split(" ")[3]);
+        $(".memoBox_0").find("#time_hour").val(firstMemoBox.split(" ")[4]);
+        $(".memoBox_0").find("#time_min").val(firstMemoBox.split(" ")[5]);
+
+        var numMemo = value.split("\n").length;
+        for(var i = 3; i < numMemo ; i++){
+            var memoBox = value.split("\n")[i-1];
+            var parentNode = $("#memoContainer")[0];
+            createMemoBoxWithData(parentNode.children[i-3], memoBox.split(" "));
         }
-        calculateTotalCost();
-        calculateTotalHour();
-        calculateTotalMin();
-        memoBoxIdx = numMemo + 1;
+        calculateTotalCost($("#memoContainer")[0]);
+        calculateTotalHour($("#memoContainer")[0]);
+        calculateTotalMin($("#memoContainer")[0]);
     });
 }
