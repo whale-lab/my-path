@@ -1,33 +1,22 @@
 var memoBoxIdx = 1;
 var totalCosts = 0;
-var totalHour = 0;
-var totalMin = 0;
+var totalTime = 0;
+var memoKey;
 
 initialize();
 
 function initialize(){
     $(document).ready( function() {
         $(".memoBox_0").load("../inputform/memoBox.html", function(){
-            $(".memoBox_0").find("#sourceButton").on("click", function(){
-                var source = $(".memoBox_0").find("#source").val();
-                createTabMenu(source);
-            });
-            $(".memoBox_0").find("#destButton").on("click", function(){
-                var dest = $(".memoBox_0").find("#dest").val();
-                createTabMenu(dest);
-            });
             $(".memoBox_0").find("#cost").on("keyup", function(){
                 calculateTotalCost();
             });
-            $(".memoBox_0").find("#time_hour").on("keyup", function(){
-                calculateTotalHour();
+            $(".memoBox_0").find("#time").on("keyup", function(){
+                calculateTotalTime();
             });
-            $(".memoBox_0").find("#time_min").on("keyup", function(){
-                calculateTotalMin();
-            });
-            $(".memoBox_0").find("#createMemo").on("click", function(){
-                createMemoBox("memoContainer", "../inputform/memoBox.html");
-            });
+        });
+        $("#plusButton").click(function(){
+            createMemoBox("memoContainer", "../inputform/memoBox.html")
         });
         $("#clipBoard").click(function(){
             copyToClipBoard();
@@ -49,43 +38,18 @@ function createMemoBox(parentDivId, memoBoxHtmlPath) {
     memoBoxDiv.setAttribute("class", "memoBox_"+(memoBoxIdx));
     parentDiv.appendChild(memoBoxDiv);
     $(".memoBox_"+memoBoxIdx).load(memoBoxHtmlPath, function(){
-        $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(){
-            var source = $(".memoBox_"+idx).find("#source").val();
-            createTabMenu(source);
-        });
-        $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(){
-            var dest = $(".memoBox_"+idx).find("#dest").val();
-            createTabMenu(dest);
-        });
         $(".memoBox_"+memoBoxIdx).find("#cost").on("keyup", function(){
             calculateTotalCost();
         });
-        $(".memoBox_"+memoBoxIdx).find("#time_hour").on("keyup", function(){
-            calculateTotalHour();
-        });
-        $(".memoBox_"+memoBoxIdx).find("#time_min").on("keyup", function(){
-            calculateTotalMin();
-        });
-        $(".memoBox_"+memoBoxIdx).find("#createMemo").on("click", function(){
-            createMemoBox("memoContainer", "../inputform/memoBox.html");
+        $(".memoBox_"+memoBoxIdx).find("#time").on("keyup", function(){
+            calculateTotalTime();
         });
         memoBoxIdx += 1;
     });
 }
 
-function deleteMemoBox(idx){
-    $(".memoBox_"+idx).remove();
-    enabledIdx[idx]=false;
-    if(memoBoxIdx == idx + 1){
-        memoBoxIdx -= 1;
-    }
-}
+function deleteMemoBox(buttonId, parentDivId, memoBoxDivId){
 
-function createTabMenu(query){
-    whale.tabs.create({
-        url:"https://map.naver.com/v5/search/"+query+"?",
-        selected:true  // We open the tab in the background
-    })
 }
 
 function calculateTotalCost(){
@@ -97,35 +61,18 @@ function calculateTotalCost(){
         }
     }
     totalCosts = cost;
-    $("#totalCost").text(totalCosts + " 원");
+    $("#totalCostAndTime").text(totalTime/60 + " 시간 " + totalTime%60 + " 분 " + totalCosts + " 원");
 }
 
-function calculateTotalHour(){
+function calculateTotalTime(){
     var time = 0;
-    var totalTime = 0;
     for(var i = 0; i < memoBoxIdx; i++) {
-        var hour = parseInt($(".memoBox_"+i).find("#time_hour").val());
-        if(!isNaN(hour)){
-            time += hour * 60;
-        }
+        var hour = parseInt($(".memoBox_"+i).find("#time").val().split(":")[0]);
+        var min = parseInt($(".memoBox_"+i).find("#time").val().split(":")[1]);
+        time += hour * 60 + min;
     }
-    totalHour = time;
-    totalTime = totalHour + totalMin;
-    $("#totalTime").text(parseInt(totalTime/60) + " 시간 " + totalTime%60 + " 분");
-}
-
-function calculateTotalMin(){
-    var time = 0;
-    var totalTime = 0;
-    for(var i = 0; i < memoBoxIdx; i++) {
-        var min = parseInt($(".memoBox_"+i).find("#time_min").val());
-        if(!isNaN(min)){
-            time += min;
-        }
-    }
-    totalMin = time;
-    totalTime = totalHour + totalMin;
-    $("#totalTime").text(parseInt(totalTime/60) + " 시간 " + totalTime%60 + " 분");
+    totalTime = time;
+    $("#totalCostAndTime").text(parseInt(totalTime/60) + " 시간 " + totalTime%60 + " 분 " + totalCosts + " 원");
 }
 
 function transformMemoIntoString(){
@@ -176,41 +123,34 @@ function transforMemoIntoDataFormat(){
 }
 
 function saveMemos(){
-    var memoObject = {};
-    var memoKey = $("#memoTitle").val();
+    memoKey = $("#memoTitle").val();
     if(memoKey.length==0)
         memoKey = "default";
     var value = transforMemoIntoDataFormat();
-    memoObject[memoKey] = value;
 
-    whale.storage.sync.set(memoObject, function() {
-        alert(memoKey);
-        alert(value);
+    whale.storage.local.set({"default" : value}, function() {
+        console.log(memoKey);
+        console.log(value);
     });
 }
 
 function loadMemos(){
-    whale.storage.sync.get(memoTitle, function(result) {
-        var value = result[memoTitle];
-        alert(value);
-        clearAllMemos();
-        $(".memoBox_0").find("#source").text(value.split("\n")[1]);
-        $(".memoBox_0").find("#dest").text(value.split("\n")[2]);
-        $(".memoBox_0").find("#transportation").val(value.split("\n")[3]);
-        $(".memoBox_0").find("#cost").text(value.split("\n")[4]);
-        $(".memoBox_0").find("#time").text(value.split("\n")[5]);
+    whale.storage.local.get(memoKey.toString(), function(result) {
+        var value = result.default;
+        console.log(value);
         var numMemo = value.split("\n")[0];
-        for(var i = 1; i < numMemo ; i++){
-            createMemoBox();
-            $(".memoBox_"+i).find("#source").text(value.split("\n")[(i*5)+1]);
-            $(".memoBox_"+i).find("#dest").text(value.split("\n")[(i*5)+2]);
-            $(".memoBox_"+i).find("#transportation select").val(value.split("\n")[(i*5)+3]);
-            $(".memoBox_"+i).find("#cost").text(value.split("\n")[(i*5)+4]);
-            $(".memoBox_"+i).find("#time").text(value.split("\n")[(i*5)+5]);
+        for(var i = 0; i < numMemo ; i++){
+            var source = value.split("\n")[(i*5)+1];
+            var dest = value.split("\n")[(i*5)+2];
+            var transport = value.split("\n")[(i*5)+3];
+            var cost = value.split("\n")[(i*5)+4];
+            var hour = value.split("\n")[(i*5)+5].split(":")[0];
+            var min = value.split("\n")[(i*5)+5].split(":")[1];
+            console.log(source);
+            console.log(dest);
+            console.log(transport);
+            console.log(cost);
+            console.log(hour + ":" + min);
         }
-        calculateTotalCost();
-        calculateTotalHour();
-        calculateTotalMin();
-        memoBoxIdx = numMemo + 1;
     });
 }

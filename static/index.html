@@ -2,24 +2,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>나의 가는 길</title>
 
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"></head>
-
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src=https://code.jquery.com/jquery-3.2.1.min.js></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-
-    <link href="../inputform/css/memoBox.css" rel="stylesheet">
+    <!--------------------------------------------- Font:나눔스퀘어 ----------------------------------------------------->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
-    <script type = "text/javascript" src="../contentScript/mainUtils.js"></script>
+    <!------------------------------------------------------------------------------------------------------------------>
 
+    <!--------------------------------------------- Custom CSS --------------------------------------------------------->
+    <link href="../inputform/css/memoBox.css" rel="stylesheet">
+    <!------------------------------------------------------------------------------------------------------------------>
+
+    <!---------------------------------------------- Custom JS --------------------------------------------------------->
+    <script type = "text/javascript" src="../contentScript/mainUtils.js"></script>
+    <!------------------------------------------------------------------------------------------------------------------>
 <style>
 
     html, button, input {
@@ -31,9 +34,16 @@
         font-family: 'NanumSquare', sans-serif;
         font-weight: 400;
         -webkit-font-smoothing: antialiased;
-
         -moz-osx-font-smoothing: grayscale;
-        /* text-shadow: #fff 0px 1px 1px; */ /* 폰트 부드럽게 하기 */
+    }
+
+    /* 이미지 드래그 방지 */
+    img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
     }
 
     .top-navbar {
@@ -49,47 +59,24 @@
 
     #memoTitle {
         font-family: 'NanumSquare', sans-serif;
-        background-color: #93C365;
-        color: black;
+        background-color: #93C365; 
+        color: white;
+        height: 37px;
     }
 
-
-/* 이전 버전 쉐도우 박스 */
-/*
-.bottom-box {
-  position: sticky;
-  top: 30px;
-  top: 85%;
-  margin: auto;
-
-  background: #fff;
-  border-radius: 2px;
-  display: block;
-  height:60px;
-  width:300px;
-
-  padding:20px;
-  border-radius:4px;
-}
-
-.shadow-3 {
-  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  -ms-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  -o-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-}
-*/
-
+    #memoTitle::placeholder {
+        color: white;
+        font-weight: 600;
+    }
 
     .bottom-background-box {
-        position: sticky;
-        top: 94.4%;  /**/
+        position: fixed;
+        top: 92.7%;  
         width: 100%;
         height: 52px;
         padding: 10px;
-
         background: #93C365;
+        z-index: 2;
     }
 
     .bottom-content-box-left {
@@ -128,13 +115,9 @@
         float: right;
     }
 
-    .navbar-brand{
-        /*color: #22923B";*/
-    }
-
     #open-button{
-        font-size:28px;
-        cursor:pointer; 
+        font-size: 28px;
+        cursor: pointer; 
         float: right;
         color: #22923B;
     }
@@ -184,11 +167,11 @@
         display: block;
         transition: 0.2s;
     }
-/*
+
     .sidenav a:hover {
-        color: #f1f1f1;
+        color: rgb(33, 161, 61);
     }
-*/
+
 
     .sidenav .closebtn {
         /*position: absolute;*/
@@ -200,8 +183,9 @@
     .side-upperbar-background {
         background-color: white;
         height: 60px;
-        padding: 15px;
+        padding: 18px 15px 15px 15px;
         border-bottom: 0.1px solid #ccc;
+        user-select: none;
     }
 
     .sidebar-user-info {
@@ -209,6 +193,7 @@
         font-weight: 700;
         color: #22923B;
         float: left;
+        user-select: none;
     }
 
     @media screen and (max-height: 450px) {
@@ -224,138 +209,150 @@
         text-decoration: none;
     }
 
-
-  /* 아코디언 메뉴 배경 디자인 */
-  .accordion-menu {
-    width: 100%;
-    max-width: 350px;
-    margin: 0px auto 0px;
-    background: #fff;
-    border-radius: 4px;
-    padding: 0px;
-  }
-
-  .accordion-menu li.open .dropdownlink {
-    color: black;
-    /*
-    .fa-chevron-down {
-      transform: rotate(180deg);
+    /* 아코디언 메뉴 배경 디자인 */
+    .accordion-menu {
+        user-select: none;
+        width: 100%;
+        max-width: 350px;
+        margin: 0px auto 0px;
+        background: #fff;
+        border-radius: 4px;
+        padding: 0px;
     }
-    */
-  }
 
-  .accordion-menu li:last-child .dropdownlink {
-    border-bottom: 0;
-  }
-
-  .dropdownlink {
-    cursor: pointer;
-    display: block;
-    padding: 12px 12px 12px 23px; /* ~~ 왼쪽*/
-    font-size: 15px;
-    font-weight: 800;
-    border-bottom: 0.1px solid #ccc;
-    color: #212121;
-    position: relative;
-    transition: all 0.4s ease-out;
-    i {
-      position: absolute;
-      top: 17px;
-      left: 16px;
+    .accordion-menu li.open .dropdownlink {
+        color: black;
     }
-    .fa-chevron-down {
-      right: 12px;
-      left: auto;
+
+    .accordion-menu li:last-child .dropdownlink {
+        border-bottom: 0;
     }
-  }
 
-   #auth {
-    border-bottom: 0.4px solid #ccc;
-  }
+    .dropdownlink {
+        user-select: none;
+        cursor: pointer;
+        display: block;
+        padding: 12px 12px 12px 23px; 
+        font-size: 15px;
+        font-weight: 800;
+        border-bottom: 0.1px solid #ccc;
+        color: #212121;
+        position: relative;
+        transition: all 0.4s ease-out;
 
-  .submenuItems {
-    display: none;
-    background: white;
-    li {
-      border-bottom: 1px solid #B6B6B6;
+        i {
+            position: absolute;
+            top: 17px;
+            left: 16px;
+        }
+        .fa-chevron-down {
+            right: 12px;
+            left: auto;
+        }
     }
-  }
 
-  .submenuItems a {
-    display: block;
-    color: #727272;
-    padding: 9px 9px 9px 0px;
-    transition: all 0.2s ease-out;
-
-    /*
-    &:hover {
-      background-color: #CDDC39;
-      color: #fff;
+    #auth {
+        border-bottom: 0.4px solid #ccc;
     }
-    */
-  } /* 아코디언 메뉴 디자인 끝 */
 
-  .add-folder-button {
-    background-color: #22923B; 
-    border: none;
-    color: white;
-    padding: 5px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-  }
+    .submenuItems {
+        display: none;
+        background: white;
+        li {
+            border-bottom: 1px solid #B6B6B6;
+        }
+    }
 
-  .add-folder-button:hover {
-    background-color: #3f8f4298;
-  }
+    .submenuItems a {
+        display: block;
+        color: #818181;
+        padding: 9px 9px 9px 0px;
+        transition: all 0.2s ease-out;
+    } 
+    /* 아코디언 메뉴 디자인 끝 */
 
+    .add-folder-button {
+        background-color: #22923B; 
+        border: none;
+        color: white;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .add-folder-button:hover {
+        background-color: #3f8f4298;
+    }
+
+    .popup-alert-copy {
+        top: 1.1%;
+        width: 270px;
+        position: absolute;
+        left: 30%; 
+        transform:translateX(-20%);
+
+        z-index: 5;
+        padding: 10px;
+        
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        justify-content:center;
+
+        border-radius: 15px;  
+        background-color: #004EDA;
+        color: white;
+        display: none;
+
+        box-shadow: 0px 10px 15px -9px rgba(0,0,0,0.75);
+        position: fixed;
+        
+    }
+
+    .topbar {
+        margin-top: 3px;
+        margin-bottom: 50px; 
+        padding: 10px; 
+        height: 40px; 
+        width: 100%; 
+        user-select: none; 
+        z-index: 0;
+    }
 </style>
-
 </head>
+
 <body>
 
-    <!--
-    <nav class="navbar navbar-expand-sm navbar-light top-navbar" style="">
-         
-            <a class="navbar-brand" href="#">
-                <span style="color: #22923B">나의 가는 길</span>
-            </a>
-            
-            <h2 class="navbar-brand">나의 가는 길</h2>
-            <span id="open-button"> &#9776; </span>
-    </nav>
--->
+<!-- POP-UP Alert -->
+<div class="popup-alert-copy">클립보드에 성공적으로 복사했습니다.</div>
 
-<div class="topbar"  style="magrin: 10px; padding: 10px; height: 40px; width: 100%;"> 
-    <p style="text-align: center;">
-        <img src="/images/main_logo.png" style="width: 170px;  margin: 10px;" >
+<!-- Upper Bar -->
+<div class="topbar"> 
+    <p style="text-align: center;"  oncontextmenu="return false" onselectstart="return false" ondragstart="return false" >
+        <img src="/images/main_logo.png" id="main-logo" style="width: 170px;  margin: 10px;" >
         <img src="/images/three-box.png" id="open-button" height="27" width="27" style="float:right; margin-top: 19px; margin-right: 17px;">
     </p>
-
-    
-    <!-- <span id="open-button"> &#9776; </span> -->
 </div>
-<br><br>
+
     <div id="overlay-back"></div>
     <div id="sidebar" class="sidenav">
         <div class="side-upperbar-background" >
             <div class="sidebar-user-info"> apple님</div>
-            <!--
-            <a href="javascript:void(0)" id="close-button" class="closebtn"> &times; </a>
-            -->
             <div style="width:30px; height:30px;" id="close-button" class="closebtn">
                 <img src="/images/remove_icon.png"  height="27" width="27">
             </div>
         </div>
 
-
         <ul class="accordion-menu">
             <li>
-                <div class="dropdownlink"><i aria-hidden="true"></i>
-                    <img src="/images/folder_main.png" width="32px" hegith="32px"> 기본폴더
+                <div class="dropdownlink">
+                    <i aria-hidden="true"></i>
+                    <img src="/images/folder_main.png" width="27px" hegith="27px"> 기본폴더
                     <i aria-hidden="true"></i>
                 </div>
 
@@ -368,7 +365,8 @@
 
             <li>
                 <div class="dropdownlink">
-                    <i aria-hidden="true"></i> 나의 일정
+                    <i aria-hidden="true"></i> 
+                    나의 일정
                     <i aria-hidden="true"></i>
                 </div>
 
@@ -380,8 +378,9 @@
             </li>
             
             <li>
-                <div class="dropdownlink">
-                    <i aria-hidden="true"></i> 전체 폴더
+                <div class="dropdownlink"> 
+                    <img src="/images/folder_all.png" width="27px" hegith="27px"> 전체 폴더
+                    <i aria-hidden="true"></i> 
                 </div>
             </li>
 
@@ -393,25 +392,22 @@
                 </div>
             </li>
 
-
             <li>
                 <div class="dropdownlink" id="auth"><i aria-hidden="true"></i> 로그아웃
                 </div>
             </li>
-
-
         </ul>
     </div><!-- 사이드바 끝 -->
 
-
     <div>
-        <div>
+        <div style="margin: 20px;">
             <input id="memoTitle" type="text" class="form-control" id="usr" placeholder="서울 가는 길"  autocomplete="off" >
         </div>
         <div id="memoContainer">
             <div class="memoBox_0"></div>
         </div>
 
+        <!-- Text Button -->
         <hr/>
         <div>
             <button id="plusButton" type="button" class="btn btn-primary">Primary</button>
@@ -429,28 +425,32 @@
         </div>
         <div><br/></div>
         <div>
-            <button id="load" type="button" class="btn btn-primary">Load</button>
+            <button id="load" type="button" class="btn btn-primary" >Load</button>
         </div>
+        <div><br/></div>
+        <div>
+            <button id="success-btn" type="button" class="btn btn-primary">팝업 박스 TEST</button>
+        </div>
+        <!-- End Text Button -->
     </div>
 
-
-    <div class="wrap">
-        <!-- <div class="bottom-box shadow-3"> --> <!-- 그림자 박스 -->
+    <!-- 그림자 박스 -->
+    <div class="wrap"> 
         <div class="bottom-background-box">
             <div class="bottom-content-box-left" >
                 <span class="bottom-box-title"> 총 시간</span>
-                <span class="bottom-box-content" id="totalTime"> 시  분</span>
+                <span class="bottom-box-content" id="totalCost"> 75분</span> 
             </div>
             <div class="bottom-content-box-right" id="totalTime">
                 <span class="bottom-box-title"> 총 금액</span>
-                <span class="bottom-box-content" id="totalCost"> 원</span>
+                <span class="bottom-box-content" id="totalCost"> 22,000원</span> 
             </div>
-            <!-- <div class="title" style="text-align:center" id="totalCostAndTime">총 시간: 75분, 총 금액: 22,0000</div> -->
         </div>
     </div>
-
-
+    
+    <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="js/accordion_menu.js"></script>
+    <script src="js/alert.js"></script>
 </body>
 </html>

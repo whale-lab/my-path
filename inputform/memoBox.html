@@ -8,16 +8,16 @@
                   <ul class="form-list">
                     <li class="form-list__row"> <!-- <label>출발</label> -->
                       <label class="select-map">
-                        <button id="sourceButton" class="toggle-visibility">
-                            <img src="../images/icon-02.png" width="17px" height="25px" align="right">
+                        <button class="toggle-visibility">
+                            <img src="../images/icon-02-ver2.png" width="24px" height="24px" align="right">
                         </button>
                         <input id = "source" type="text" placeholder="출발 장소" name="" autocomplete="off"/>
                       </label>
                     </li>
                     <li class="form-list__row"> <!-- <label>도착</label> -->
                       <label class="select-map">
-                          <button id="destButton" class="toggle-visibility">
-                              <img src="../images/icon-02.png" width="17px" height="25px" align="right">
+                          <button class="toggle-visibility">
+                              <img src="../images/icon-02-ver2.png" width="24px" height="24px" align="right">
                           </button>
                         <input id = "dest" type="text" placeholder="도착 장소" name="" autocomplete="off"/>
                       </label>
@@ -34,24 +34,26 @@
                       </div>
                       <div>
                           <select id="transportation">
-                              <option value="택시">택시</option>
+                              <option value="기타" selected="selected">---</option>  
                               <option value="버스">버스</option>
                               <option value="기차">기차</option>
-                              <option value="전철">전철</option>
+                              <option value="전철">지하철</option>
+                              <option value="택시">택시</option>
                               <option value="도보">도보</option>
                               <option value="자전거">자전거</option>
                               <option value="기타">기타</option>
+
                           </select>
                       </div>
                     </li>
-                    <li class="form-list__row" align="right">
-                        <button id="subMemo" style="border:none; background-color: white;" align="right" type="button">
+                    <li class="form-list__row" align="right" >
+                        <button style="border:none; background-color: white; user-select: none;" align="right" >
                             <img src="../images/icon-03.png" width="25px" height="27px">
                         </button>
-                        <button id="createMemo" style="border:none; background-color: white;" align="right" type="button">
+                        <button style="border:none; background-color: white;  user-select: none;" align="right">
                             <img src="../images/icon-05.png" width="25px" height="27px">
                         </button>
-                        <button id="deleteMemo" style="border:none; background-color: white;" align="right" type="button">
+                        <button style="border:none; background-color: white;  user-select: none;" align="right">
                             <img src="../images/icon-04.png" width="25px" height="27px">
                         </button>
                     </li>

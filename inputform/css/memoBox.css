@@ -159,16 +159,19 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    -ms-flex-pack: center;
-        justify-content: center;
-    -ms-flex-align: center;
-        align-items: center;
-    height: 30vh;
+
+    height: 230px;
     width: 100vw;
     z-index: 2; 
-  overflow-y: auto;
+    overflow-y: auto;
+
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
   }
-    .modal__container {
+
+  .modal__container {
       display: -ms-flexbox;
       display: flex;
       position: absolute;
@@ -210,7 +213,6 @@
       padding: 10px 10px; }
 
 
-
 .select-map{ position: relative; }
 .select-map button.toggle-visibility{
   background: none;
@@ -222,8 +224,8 @@
   */
 
   position: absolute;
-    top: 50%;
-    right: 0.5em;
+  top: 50%;
+  right: 0.3em;
   text-align: center;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
