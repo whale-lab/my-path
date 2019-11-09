@@ -415,7 +415,7 @@ a.circle-submenu-a:hover { text-decoration:none !important }
     box-shadow: 2px 2px 3px #999;
     border-radius: 50px;
     color:#FFF;
-    padding-top: 3.9%;
+    padding-top: 5%;
     text-align: center;
     user-select: none;
 }
@@ -467,8 +467,8 @@ a#circle-menu:hover > i{
 */
 
 .clipboard-info-popup{
-    width: 80%; 
-    height: 80%; 
+    width: 80%;
+    height: 80%;
     background-color: white; 
     position: absolute; 
     z-index: 4; 
@@ -548,6 +548,88 @@ a#circle-menu:hover > i{
     user-select: none; 
 }
 
+
+/* 폴더 저장 팝업 */
+.folder-save-info-popup {
+    width: 80%;   
+    height: 20%; 
+    min-height: 150px;
+    background-color: white; 
+    position: absolute; 
+    z-index: 4; 
+    
+    padding: 20px;
+    transform: translate(13%, 10%);
+    border-radius: 5px;
+
+    display: none; /* none */ /* show */
+    border: 1px solid black;
+    user-select: none; 
+}
+
+.folder-save-ok {
+    position: fixeds;
+    background-color: rgb(33, 161, 61);
+
+    transform: translate(31%, 35%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+    color: white;
+    font-weight: 700;
+    user-select: none; 
+    
+}
+
+.folder-save-ok:hover {
+    background-color: #3f8f42;
+    user-select: none; 
+}
+
+.folder-save-cancel {
+    position: relative;
+    background-color: #E65438;  /*#EC4949;*/
+    float: right;
+    transform: translate(37%, 35%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+
+    color: white;
+    font-weight: 700;
+    user-select: none; 
+}
+
+.folder-save-cancel:hover {
+    background-color: rgb(238, 101, 101);
+    user-select: none; 
+}
+
+
+.folder-list-select {
+    height: 30%;
+    width: 69.1%;
+    min-width: 20px;
+    float: center;
+    margin-left: 15.4%;
+    /*ma rgin: 10%;*/
+    z-index: 4;
+    user-select: none; 
+}
+
+.folder-save-info-p {
+    text-align: center;
+    user-select: none; 
+}
+
 </style>
 </head>
 <body>
@@ -556,8 +638,24 @@ a#circle-menu:hover > i{
 <div class="popup-alert copy-success">클립보드에 성공적으로 복사했습니다. </div>
 <div class="popup-alert delete-error">처음 메모는 삭제할 수 없습니다. </div>
 <div class="popup-alert reset">현재 메모를 초기화 하였습니다. </div>
-<div class="popup-alert save">현재 메모를 저장하였습니다. </div>
+<div class="popup-alert save">선택한 폴더에 저장하였습니다. </div>
 
+<!-- Save Folder Alert -->
+<div class="folder-save-info-popup">
+    <p class="folder-save-info-p"> 저장할 폴더를 지정해주세요. </p>
+    <select class="folder-save folder-list-select">
+        <option selected>기본폴더</option>
+        <option>test1</option>
+        <option>test2</option>
+    </select>
+    <p style="margin-right: 11%;">
+        <button class="folder-save-info-button folder-save-cancel">취소</button>
+        <button class="folder-save-info-button folder-save-ok">저장</button> 
+    </p>
+</div>
+
+
+<!-- Save Clipboard Alert -->
 <div class="clipboard-info-popup" >
     <p class="info-p"> 다음 내용이 클립보드에 저장됩니다.</p>
     <textarea class="clipboard-info-popup info-textarea"></textarea>  
