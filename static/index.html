@@ -54,7 +54,7 @@
     .wrap {
         position: absolute;
         width: 100%;
-        height: 700px;
+        height: 70px;
     }
 
     #memoTitle {
@@ -289,7 +289,7 @@
         background-color: #3f8f4298;
     }
 
-    .popup-alert-copy {
+    .popup-alert {
         top: 1.1%;
         width: 270px;
         position: absolute;
@@ -307,11 +307,27 @@
         border-radius: 15px;  
         background-color: #22923B;
         color: white;
-        display: none;
 
+        text-align: center; 
+
+        display: none;
         box-shadow: 0px 10px 15px -9px rgba(0,0,0,0.75);
         position: fixed;
-        
+        user-select:none;
+    }
+
+    .copy-success{
+        background-color: #22923B;
+    }
+
+    .delete-error {
+        background-color: #EC4949;
+        justify-content:center;
+    }
+
+    .reset {
+        background-color: #EC4949;
+        justify-content:center;
     }
 
     .topbar {
@@ -323,26 +339,155 @@
         user-select: none; 
         z-index: 0;
     }
+
+
+/* Test Circle Menu */
+
+a.circle-float:hover { text-decoration:none !important }
+
+a.circle-submenu-a:hover { text-decoration:none !important }
+
+.label-container{
+	position:fixed;
+	bottom:48px;
+	right:105px;
+	display:table;
+	visibility: hidden;
+}
+
+.label-text{
+	color:#FFF;
+	background:rgba(51,51,51,0.5);
+	display:table-cell;
+	vertical-align:middle;
+	padding:10px;
+	border-radius:3px;
+}
+
+.label-arrow{
+	display:table-cell;
+	vertical-align:middle;
+	color:#333;
+	opacity:0.5;
+}
+
+/* 하단 원형 메뉴 */
+.circle-float{
+	position: fixed;
+	width: 30px;
+	height: 30px;
+	bottom: 10%; /* 바닥간 거리 조정 */
+    right: 20px;
+	background-color:#22923B;
+	color:#FFF;
+	border-radius: 50px;
+	text-align: center;
+	box-shadow: 2px 2px 3px #999;
+    z-index: 3;
+    user-select: none;
+	/*animation: bot-to-top 1s ease-out;*/
+}
+
+/* 바닥 메뉴 */
+.circle-submenu-ul {
+	position:fixed;
+	right: 20px; 
+	padding-bottom: 17%;
+	bottom: 5%; /* 바닥간 거리 조정 */
+    z-index: 3;
+    
+}
+
+.circle-submenu-ul .circle-submenu-li{
+	list-style: none;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+/* 메뉴 아이콘 */
+.circle-submenu-ul
+.circle-submenu-li
+.circle-submenu-a{
+    display: block;
+    width: 120px;
+    height: 37px;
+    background-color:#22923B;
+    box-shadow: 2px 2px 3px #999;
+    border-radius: 50px;
+    color:#FFF;
+    padding-top: 3.9%;
+    text-align: center;
+    user-select: none;
+}
+
+.circle-submenu-ul:hover{
+	visibility: visible!important;
+	opacity: 1!important;
+}
+
+a#circle-menu + .circle-submenu-ul{
+  visibility: hidden;
+}
+
+a#circle-menu:hover + .circle-submenu-ul{
+  visibility: visible;
+  animation: scale-in 0.3s;
+}
+
+/*
+a#circle-menu i{
+	animation: rotate-in 0.5s;
+}
+
+a#circle-menu:hover > i{
+	animation: rotate-out 0.5s;
+}
+*/
+
+@keyframes bot-to-top {
+    0%   {bottom:-40px}
+    50%  {bottom:40px}
+}
+
+@keyframes scale-in {
+    from {transform: scale(0);opacity: 0;}
+    to {transform: scale(1);opacity: 1;}
+}
+
+/*
+@keyframes rotate-in {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+@keyframes rotate-out {
+    from {transform: rotate(360deg);}
+    to {transform: rotate(0deg);}
+}
+*/
+
 </style>
 </head>
-
 <body>
 
 <!-- POP-UP Alert -->
-<div class="popup-alert-copy">클립보드에 성공적으로 복사했습니다.</div>
+<div class="popup-alert copy-success">클립보드에 성공적으로 복사했습니다. </div>
+<div class="popup-alert delete-error">처음 메모는 삭제할 수 없습니다. </div>
+<div class="popup-alert reset">현재 메모를 초기화 하였습니다. </div>
+<div class="popup-alert save">현재 메모를 저장하였습니다. </div>
 
 <!-- Upper Bar -->
 <div class="topbar"> 
     <p style="text-align: center;"  oncontextmenu="return false" onselectstart="return false" ondragstart="return false" >
-        <img src="/images/main_logo.png" id="main-logo" style="width: 170px;  margin: 10px;" >
-        <img src="/images/three-box.png" id="open-button" height="27" width="27" style="float:right; margin-top: 19px; margin-right: 17px;">
+        <img src="/images/main_logo.png" id="main-logo" class="testbox" style="width: 170px;  margin: 10px;" >
+        <img src="/images/three-box.png" id="open-button" class="open-three-box-button" height="27" width="27" style="float:right; margin-top: 19px; margin-right: 17px; z-index: 2;">
     </p>
 </div>
 
     <div id="overlay-back"></div>
     <div id="sidebar" class="sidenav">
         <div class="side-upperbar-background" >
-            <div class="sidebar-user-info"> apple님</div>
+            <div class="sidebar-user-info"> Welcome!</div>
             <div style="width:30px; height:30px;" id="close-button" class="closebtn">
                 <img src="/images/remove_icon.png"  height="27" width="27">
             </div>
@@ -388,11 +533,6 @@
                     <button class="add-folder-button">폴더삭제</button>
                 </div>
             </li>
-
-            <li>
-                <div class="dropdownlink" id="auth"><i aria-hidden="true"></i> 로그아웃
-                </div>
-            </li>
         </ul>
     </div><!-- 사이드바 끝 -->
 
@@ -404,7 +544,8 @@
             <div class="memoBox_0"></div>
         </div>
 
-        <!-- Text Button -->
+        <!-- Testing Button -->
+        <!-- 
         <hr/>
         <div>
             <button id="clipBoard" type="button" class="btn btn-primary">ClipBoard</button>
@@ -417,10 +558,28 @@
             <button id="save" type="button" class="btn btn-primary">Save</button>
         </div>
         <div><br/></div>
-        <!-- End Text Button -->
+        -->
+        <!-- End Testing Button -->
     </div>
 
-    <!-- 그림자 박스 -->
+    <!-- Bottom Circle Menu -->
+    <a href="#" class="circle-float" id="circle-menu">...</a>
+    <ul class="circle-submenu-ul">
+        <li class="circle-submenu-li">
+            <a href="#" class="circle-submenu-a" id="clipBoard">클립보드 복사</a>
+        </li>
+        <li class="circle-submenu-li">
+            <a href="#" class="circle-submenu-a" id="clear">초기화</a>
+        </li>
+        <li class="circle-submenu-li">
+            <a href="#" class="circle-submenu-a" id="save">메모 저장</a>
+        </li>
+        <li class="circle-submenu-li">
+            <a href="#" class="circle-submenu-a" id="save">공유</a>
+        </li>
+    </ul>
+
+    <!-- Bottom Price Time Box -->
     <div class="wrap"> 
         <div class="bottom-background-box">
             <div class="bottom-content-box-left">
