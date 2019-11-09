@@ -28,7 +28,7 @@ function initialize(){
             $(".memoBox_0").find("#createMemo").on("click", function(){
                 createMemoBox($(".memoBox_0")[0]);
             });
-            $(".memoBox_0").find("#deleteMemo").on("click", function(){ // 처음 메모
+            $(".memoBox_0").find("#deleteMemo").on("click", function(){ // 처음 메모 삭제 선택
                 //alert("First Element couldn't be deleted");
                 $( ".delete-error" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
             });
@@ -187,7 +187,7 @@ function copyToClipBoard(parentNode){
     temp.select();
     document.execCommand('copy');
     document.body.removeChild(temp);
-    $( ".copy-success" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
+    //$( ".copy-success" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
 }
 
 function transformMemoIntoString(parentNode){

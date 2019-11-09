@@ -383,7 +383,7 @@ a.circle-submenu-a:hover { text-decoration:none !important }
 	border-radius: 50px;
 	text-align: center;
 	box-shadow: 2px 2px 3px #999;
-    z-index: 3;
+    z-index: 2;
     user-select: none;
 	/*animation: bot-to-top 1s ease-out;*/
 }
@@ -395,7 +395,6 @@ a.circle-submenu-a:hover { text-decoration:none !important }
 	padding-bottom: 17%;
 	bottom: 5%; /* 바닥간 거리 조정 */
     z-index: 3;
-    
 }
 
 .circle-submenu-ul .circle-submenu-li{
@@ -466,6 +465,88 @@ a#circle-menu:hover > i{
 }
 */
 
+.clipboard-info-popup{
+    width: 80%; 
+    height: 80%; 
+    background-color: white; 
+    position: absolute; 
+    z-index: 4; 
+    
+    transform: translate(13%, 10%);
+    border-radius: 5px;
+
+    display: none; /* none */ /* show */
+    border: 1px solid black;
+}
+
+.info-p{
+    top: 3%;
+    color:black;
+
+    text-align: center;
+    position: relative;
+    z-index: 4;
+    user-select: none; 
+}
+
+.info-textarea {
+    position: relative;
+    background: #eee;
+    border: 0.5px;
+    height: 80%;
+    width: 80%;
+    /*resize:horizontal;*/
+    transform: translate(13%, 5%);
+    resize: none; 
+    user-select: none; 
+}
+
+.copy-ok {
+    position: fixeds;
+    background-color: rgb(33, 161, 61);
+
+    transform: translate(7%, 95%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+    color: white;
+    font-weight: 700;
+    user-select: none; 
+}
+
+.copy-ok:hover {
+    background-color: #3f8f42;
+    user-select: none; 
+}
+
+.copy-cancel{
+    position: relative;
+    background-color: rgb(241, 23, 23);  /*#EC4949;*/
+    float: right;
+    transform: translate(7%, 95%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+
+    color: white;
+    font-weight: 700;
+
+    user-select: none; 
+}
+
+.copy-cancel:hover {
+    background-color: #EC4949;
+    user-select: none; 
+}
+
 </style>
 </head>
 <body>
@@ -475,6 +556,15 @@ a#circle-menu:hover > i{
 <div class="popup-alert delete-error">처음 메모는 삭제할 수 없습니다. </div>
 <div class="popup-alert reset">현재 메모를 초기화 하였습니다. </div>
 <div class="popup-alert save">현재 메모를 저장하였습니다. </div>
+
+<div class="clipboard-info-popup" >
+    <p class="info-p"> 다음 내용이 클립보드에 저장됩니다.</p>
+    <textarea class="clipboard-info-popup info-textarea"></textarea>  
+    <p style="margin-right: 11%;">
+        <button class="clipboard-info-button copy-cancel">취소</button>
+        <button class="clipboard-info-button copy-ok">복사</button> 
+    </p>
+</div>
 
 <!-- Upper Bar -->
 <div class="topbar"> 
