@@ -1,4 +1,5 @@
 var memoBoxIdx = 1;
+var folderIdx = 1;
 var totalCosts = 0;
 var totalHour = 0;
 var totalMin = 0;
@@ -42,22 +43,20 @@ function initialize(){
         $("#save").click(function(){
             saveMemos($("#memoContainer")[0]);
         });
-        $("#kakao").click(function(){
-            Kakao.init('c4818736f7df44db4f77c3ec3d8be0fa');
-            Kakao.Auth.login({
-                success: function(authObj) {
-                    alert.log(JSON.stringify(authObj));
-                },
-                fail: function(err) {
-                    alert.log(JSON.stringify(err));
-                },
-                throughTalk : false
-            });
+        $("#folderNamseSaveButton").click(function(){
+            addFolder();
+            $("#addFolderForm").fadeOut(100);
         });
-
-
-
-
+        $("#folderNamseRemoveButton").click(function(){
+            removeFolder();
+            $("#removeFolderForm").fadeOut(100);
+        });
+        $("#addFolder").click(function(){
+            $("#addFolderForm").fadeIn(100);
+        });
+        $("#removeFolder").click(function(){
+            $("#removeFolderForm").fadeIn(100);
+        });
     });
 }
 function createMemoBox(currElement) {
@@ -301,4 +300,32 @@ function loadMemos(memoKey){
         calculateTotalHour($("#memoContainer")[0]);
         calculateTotalMin($("#memoContainer")[0]);
     });
+}
+
+function addFolder(){
+    var folderName = $("#folderNameSaveInput").val();
+    var folderDiv = document.createElement('li');
+    folderDiv.setAttribute("id", "customFolder_"+folderIdx);
+    folderDiv.innerHTML="                <div class=\"dropdownlink\">\n" +
+        "                    <i aria-hidden=\"true\"></i>\n" +
+        "                    <img src=\"/images/folder_main.png\" width=\"27px\" hegith=\"27px\"> "+folderName+"\n" +
+        "<i aria-hidden=\"true\"></i>\n" +
+        "                </div>\n" +
+        "\n" +
+        "                <ul class=\"submenuItems\">\n" +
+        "                </ul>";
+    var parentNode = $("#all_folder_list")[0];
+    parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
+}
+
+function removeFolder(){
+    var folderName = $("#folderNameRemoveInput").val();
+    var parentNode = $("#all_folder_list")[0];
+    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+        var title = parentNode.children[idx].innerText;
+        if(title.trim().toString() == folderName.trim().toString()){
+            parentNode.removeChild(parentNode.children[idx]);
+            break;
+        }
+    }
 }
