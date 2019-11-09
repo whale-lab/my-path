@@ -8,7 +8,6 @@ $( "#clear" ).click(function() {
 
 
 // 원형 메뉴 -> 클립보드 복사 버튼
-
 $( "#clipBoard" ).click(function() {
     $('#overlay, #overlay-back').fadeIn(100);
     $('.clipboard-info-popup').fadeIn(100);
@@ -16,8 +15,13 @@ $( "#clipBoard" ).click(function() {
 });
 
 
-// 원형 메뉴 -> 클립보드 복사 창 -> 취소 버튼 누를 때 이벤트
+// 원형 메뉴 -> 클립보드 복사 창 -> 취소, 회색 바탕 버튼 누를 때 이벤트
 $( ".copy-cancel" ).click(function() {
+    $('#overlay, #overlay-back').fadeOut(200);
+    $('.clipboard-info-popup').fadeOut(200);
+});
+
+$( "#overlay-back" ).click(function() {
     $('#overlay, #overlay-back').fadeOut(200);
     $('.clipboard-info-popup').fadeOut(200);
 });
