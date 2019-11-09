@@ -42,6 +42,18 @@ function initialize(){
         $("#save").click(function(){
             saveMemos($("#memoContainer")[0]);
         });
+        $("#kakao").click(function(){
+            Kakao.init('c4818736f7df44db4f77c3ec3d8be0fa');
+            Kakao.Auth.login({
+                success: function(authObj) {
+                    alert.log(JSON.stringify(authObj));
+                },
+                fail: function(err) {
+                    alert.log(JSON.stringify(err));
+                },
+                throughTalk : false
+            });
+        });
 
 
 
