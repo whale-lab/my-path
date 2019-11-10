@@ -668,10 +668,11 @@ a#circle-menu:hover > i{
 <!-- Save Folder Alert -->
 <div class="folder-save-info-popup">
     <p class="folder-save-info-p"> 저장할 폴더를 지정해주세요. </p>
-    <select class="folder-save folder-list-select">
-        <option selected>기본폴더</option>
+    <select id="select-save-folder" class="folder-save folder-list-select">
+        <!-- <option selected>기본폴더</option>
         <option>test1</option>
         <option>test2</option>
+        -->
     </select>
     <p style="margin-right: 11%;">
         <button class="folder-save-info-button folder-save-cancel">취소</button>
@@ -727,9 +728,6 @@ a#circle-menu:hover > i{
          </div>
 
          <ul class="submenuItems">
-             <li><a href="#"> Test1 </a></li>
-             <li><a href="#"> Test2</a></li>
-             <li><a href="#"> Test3</a></li>
          </ul>
      </li>
 
@@ -799,12 +797,6 @@ a#circle-menu:hover > i{
         </li>
         <li class="circle-submenu-li">
             <a href="#" class="circle-submenu-a" id="clear">초기화</a>
-        </li>
-        <li class="circle-submenu-li">
-            <a href="#" class="circle-submenu-a" id="save">메모 저장</a>
-        </li>
-        <li class="circle-submenu-li">
-            <a href="#" class="circle-submenu-a" id="kakao">공유</a>
         </li>
     </ul>
 

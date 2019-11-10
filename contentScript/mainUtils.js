@@ -9,11 +9,11 @@ initialize();
 function initialize(){
     $(document).ready( function() {
         $(".memoBox_0").load("../inputform/memoBox.html", function(){
-            $(".memoBox_0").find("#sourceButton").on("click", function(){
+            $(".memoBox_0").find("#sourceButton").on("click", function(event){
                 var source = $(".memoBox_0").find("#source").val();
                 createTabMenu(source);
             });
-            $(".memoBox_0").find("#destButton").on("click", function(){
+            $(".memoBox_0").find("#destButton").on("click", function(event){
                 var dest = $(".memoBox_0").find("#dest").val();
                 createTabMenu(dest);
             });
@@ -30,7 +30,6 @@ function initialize(){
                 createMemoBox($(".memoBox_0")[0]);
             });
             $(".memoBox_0").find("#deleteMemo").on("click", function(){ // 처음 메모 삭제 선택
-                //alert("First Element couldn't be deleted");
                 $( ".delete-error" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
             });
         });
@@ -41,7 +40,7 @@ function initialize(){
             clearAllMemos($("#memoContainer")[0]);
         });
         $("#save").click(function(){
-            saveMemos($("#memoContainer")[0]);
+            updateFolders();
         });
         $("#folderNamseSaveButton").click(function(){
             addFolder();
@@ -57,6 +56,7 @@ function initialize(){
         $("#removeFolder").click(function(){
             $("#removeFolderForm").fadeIn(100);
         });
+        initFolderStructure();
     });
 }
 function createMemoBox(currElement) {
@@ -116,11 +116,9 @@ function createMemoBoxWithData(currElement, data) {
         });
         $(".memoBox_"+memoBoxIdx).find("#createMemo").on("click", function(){
             createMemoBox(memoBoxDiv);
-            alert("Create Memo Click!");
         });
         $(".memoBox_"+memoBoxIdx).find("#deleteMemo").on("click", function(){
             deleteMemoBox(memoBoxDiv);
-            alert("Delete Memo Click!");
         });
         $(".memoBox_"+memoBoxIdx).find("#source").val(data[0]);
         $(".memoBox_"+memoBoxIdx).find("#dest").val(data[1]);
@@ -250,11 +248,19 @@ function transformMemoIntoSaveData(parentNode){
         var min = $("."+className).find("#time_min").val();
         str += source + " " + dest +" " + transport + " " + cost + " " + hour + " " + min + "\n";
     }
-    alert("Data\n" + str);
     return str;
 }
 
-function saveMemos(parentNode){
+function updateFolders(){
+    var parentNode = $("#all_folder_list")[0];
+    $("#select-save-folder").empty();
+    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+        var title = parentNode.children[idx].innerText;
+        $("#select-save-folder").append("<option value='"+title+"'>"+title+"</option>");
+    }
+}
+
+function saveMemos(parentNode, folderName){
     var memoObject = {};
     var memoKey = $("#memoTitle").val();
     if(memoKey.length==0)
@@ -263,13 +269,14 @@ function saveMemos(parentNode){
     memoObject[memoKey] = value;
 
     whale.storage.sync.set(memoObject, function() {
-        var parentNode = $("#default_folder").find(".submenuItems")[0];
+        var parentNode = getFolderNodeFromName(folderName).children[1];
         var menuElement = document.createElement('li');
         menuElement.innerHTML = "<a href=\"#\"> <img src=\"/images/folder_sub.png\" width=\"12px\" hegith=\"12px\">  "+ memoKey +"</a></li>";
         menuElement.onclick = function(){
             loadMemos(memoKey);
         };
         parentNode.insertBefore(menuElement, parentNode.lastChild.nextSibling);
+        updateFolderStructure();
     });
 }
 
@@ -302,6 +309,79 @@ function loadMemos(memoKey){
     });
 }
 
+function updateFolderStructure(){
+
+    var parentNode = $("#all_folder_list")[0];
+
+    var allFolder = {};
+    var allFolderKey = "All_Folder";
+    var allFolderValue = new Array();
+    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+        allFolderValue[idx]=parentNode.children[idx].children[0].innerText.trim();
+    }
+    allFolder[allFolderKey] = allFolderValue;
+    whale.storage.sync.set(allFolder, function(){
+        console.log("allFolder[allFolderKey] = " + allFolderValue );
+    });
+
+    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+        var folder= {};
+        var folderKey=parentNode.children[idx].children[0].innerText.toString().trim();
+        var folderValue = new Array();
+        if(parentNode.children[idx].children[1] != undefined){
+            for(var idx2 = 0; idx2 < parentNode.children[idx].children[1].childElementCount; idx2++){
+                folderValue[idx2] = parentNode.children[idx].children[1].children[idx2].innerText.toString().trim();
+            }
+        }
+        folder[folderKey] = folderValue;
+        console.log("folderKey, folderValue : " + folderKey +"<>"+folderValue);
+        whale.storage.sync.set(folder, function(){
+
+        });
+    }
+}
+
+function initFolderStructure(){
+    var allFolderKey = "All_Folder";
+    whale.storage.sync.get(allFolderKey, function(result){
+        if(Object.keys(result).length > 0){
+            var folderNames = result[allFolderKey];
+            console.log(folderNames);
+            for(var idx = 0; idx < folderNames.length; idx++){
+                var name = folderNames[idx];
+                if(name == "기본폴더" || name == "나의 일정" || name =="전체 폴더")
+                    continue;
+                addFolderWithName(name);
+            }
+            for(var idx = 0; idx < folderNames.length; idx++){
+                var folderKey = folderNames[idx];
+                folderKey = folderKey.toString().trim();
+                console.log("Debug Folder Key : " + folderKey);
+                whale.storage.sync.get(folderKey, function(result2){
+                    if(Object.keys(result2).length > 0){
+                        var folderMemos = result2[Object.keys(result2)[0]];
+                        console.log("Debug result2");
+                        console.log(result2);
+                        console.log(folderMemos);
+                        for(var idx2 = 0; idx2 < folderMemos.length; idx2++){
+                            var memoKey = folderMemos[idx2];
+                            console.log(memoKey);
+                            var menuElement = document.createElement('li');
+                            menuElement.innerHTML = "<a href=\"#\"> <img src=\"/images/folder_sub.png\" width=\"12px\" hegith=\"12px\">  "+ memoKey +"</a></li>";
+                            menuElement.onclick = function(){
+                                loadMemos(memoKey);
+                            };
+                            var parentNode = getFolderNodeFromName(Object.keys(result2)[0]).children[1];
+                            parentNode.insertBefore(menuElement, parentNode.lastChild.nextSibling);
+                        }
+                    }
+                });
+            }
+
+        }
+    });
+}
+
 function addFolder(){
     var folderName = $("#folderNameSaveInput").val();
     var folderDiv = document.createElement('li');
@@ -318,11 +398,36 @@ function addFolder(){
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
 }
 
+function addFolderWithName(folderName){
+    var folderDiv = document.createElement('li');
+    folderDiv.setAttribute("id", "customFolder_"+folderIdx);
+    folderDiv.innerHTML="                <div class=\"dropdownlink\">\n" +
+        "                    <i aria-hidden=\"true\"></i>\n" +
+        "                    <img src=\"/images/folder_main.png\" width=\"27px\" hegith=\"27px\"> "+folderName+"\n" +
+        "<i aria-hidden=\"true\"></i>\n" +
+        "                </div>\n" +
+        "\n" +
+        "                <ul class=\"submenuItems\">\n" +
+        "                </ul>";
+    var parentNode = $("#all_folder_list")[0];
+    parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
+}
+
+function getFolderNodeFromName(folderName){
+    var parentNode = $("#all_folder_list")[0];
+    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+        var title = parentNode.children[idx].children[0].innerText;
+        if(title.trim().toString() == folderName.trim().toString()){
+            return parentNode.children[idx];
+        }
+    }
+}
+
 function removeFolder(){
     var folderName = $("#folderNameRemoveInput").val();
     var parentNode = $("#all_folder_list")[0];
     for(var idx = 0; idx < parentNode.children.length-3; idx++){
-        var title = parentNode.children[idx].innerText;
+        var title = parentNode.children[idx].children[0].innerText;
         if(title.trim().toString() == folderName.trim().toString()){
             parentNode.removeChild(parentNode.children[idx]);
             break;
