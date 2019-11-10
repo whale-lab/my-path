@@ -2,62 +2,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>나의 가는 길</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"></head>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src=https://code.jquery.com/jquery-3.2.1.min.js></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
+    <!--------------------------------------------- Font:나눔스퀘어 ----------------------------------------------------->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+    <!------------------------------------------------------------------------------------------------------------------>
+
+    <!--------------------------------------------- Custom CSS --------------------------------------------------------->
     <link href="../inputform/css/memoBox.css" rel="stylesheet">
-    <script type = "text/javascript" src="../contentScript/mainUtils.js"></script>
+    <!------------------------------------------------------------------------------------------------------------------>
 
+    <!---------------------------------------------- Custom JS --------------------------------------------------------->
+    <script type = "text/javascript" src="../contentScript/mainUtils.js"></script>
+    <!------------------------------------------------------------------------------------------------------------------>
 <style>
 
-body {
-    background-color: #F2F1F2;
-}
+    html, button, input {
+        font-family: 'NanumSquare', sans-serif;
+    }
 
-.top-color{
-    background-color: #2DB400;
-}
+    body {
+        background-color: white; /*#F2F1F2*/
+        font-family: 'NanumSquare', sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-.wrap {
-  position: absolute;
-  width: 100%;
-  height: 2000px;
-}
+    /* 이미지 드래그 방지 */
+    img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+    }
 
-.bottom-box {
-  position: sticky;
-  /*top: 30px;*/
-  top: 85%;
-  margin: auto;
+    .top-navbar {
+        background-color: white;
+        margin-bottom:0px;
+    }
 
-  background: #fff;
-    border-radius: 2px;
-  display: block;
-  height:60px;
-  width:300px;
+    .wrap {
+        position: absolute;
+        width: 100%;
+        height: 70px;
+    }
 
-  padding:20px;
-  border-radius:4px;
+    #memoTitle {
+        font-family: 'NanumSquare', sans-serif;
+        background-color: #93C365;
+        color: white;
+        height: 37px;
+    }
 
-}
+    #memoTitle::placeholder {
+        color: white;
+        font-weight: 600;
+    }
 
-.shadow-3 {
-  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  -ms-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  -o-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-}
+    .bottom-background-box {
+        position: fixed;
+        top: 92.7%;
+        width: 100%;
+        height: 52px;
+        padding: 10px;
+        background: #93C365;
+        z-index: 2;
+    }
+
+    .bottom-content-box-left {
+        height: 35px;
+        width: 45%;
+        margin: 5, 5, 5, 30px;
+        padding: 4px 4px 4px 4px;
+        float: left;
+        border: 1px solid white;
+
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .bottom-content-box-right {
+        height: 35px;
+        width: 45%;
+        margin: 5, 5, 5, 30px;
+        padding: 4px 4px 4px 4px;
+        float: right;
+        border: 1px solid white;
+
+        color: white;
+    }
+
+    .bottom-box-title {
+        font-size: 16px;
+        font-weight: 600;
+
+    }
+
+    .bottom-box-content{
+        font-size: 16px;
+        font-weight: 300;
+        float: right;
+    }
+
+    #open-button{
+        font-size: 28px;
+        cursor: pointer;
+        float: right;
+        color: #22923B;
+    }
 
 
-
-#overlay-back {
+    #overlay-back {
         position   : absolute;
         top        : 0;
         left       : 0;
@@ -87,7 +154,7 @@ body {
         z-index: 10;
         top: 0;
         right: 0;
-        background-color: #f5f5f5;
+        background-color: white; /* #f5f5f5;*/
         overflow-x: hidden;
         transition: 0.2s;
     }
@@ -101,11 +168,11 @@ body {
         display: block;
         transition: 0.2s;
     }
-/*
+
     .sidenav a:hover {
-        color: #f1f1f1;
+        color: rgb(33, 161, 61);
     }
-*/
+
 
     .sidenav .closebtn {
         /*position: absolute;*/
@@ -115,15 +182,19 @@ body {
     }
 
     .side-upperbar-background {
-        background-color: #00C73C;
-        height: 55px;
-        padding: 10px;
+        background-color: white;
+        height: 60px;
+        padding: 18px 15px 15px 15px;
+        border-bottom: 0.1px solid #ccc;
+        user-select: none;
     }
 
     .sidebar-user-info {
-        font-size: 15px;
-        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        color: #22923B;
         float: left;
+        user-select: none;
     }
 
     @media screen and (max-height: 450px) {
@@ -131,158 +202,578 @@ body {
     }
 
     /* 아코디언 메뉴 디자인 */
-
-  ul {
-    list-style: none;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-
-  /* 아코디언 메뉴 배경 디자인 */
-  .accordion-menu {
-    width: 100%;
-    max-width: 350px;
-    margin: 0px auto 0px;
-    background: #fff;
-    border-radius: 4px;
-    padding: 0px;
-  }
-
-  .accordion-menu li.open .dropdownlink {
-    color: black;
-    /*
-    .fa-chevron-down {
-      transform: rotate(180deg);
+    ul {
+        list-style: none;
     }
-    */
-  }
-  .accordion-menu li:last-child .dropdownlink {
-    border-bottom: 0;
-  }
-  .dropdownlink {
-    cursor: pointer;
+
+    a {
+        text-decoration: none;
+    }
+
+    /* 아코디언 메뉴 배경 디자인 */
+    .accordion-menu {
+        user-select: none;
+        width: 100%;
+        max-width: 350px;
+        margin: 0px auto 0px;
+        background: #fff;
+        border-radius: 4px;
+        padding: 0px;
+    }
+
+    .accordion-menu li.open .dropdownlink {
+        color: black;
+    }
+
+    .accordion-menu li:last-child .dropdownlink {
+        border-bottom: 0;
+    }
+
+    .dropdownlink {
+        user-select: none;
+        cursor: pointer;
+        display: block;
+        padding: 12px 12px 12px 23px;
+        font-size: 15px;
+        font-weight: 800;
+        border-bottom: 0.1px solid #ccc;
+        color: #212121;
+        position: relative;
+        transition: all 0.4s ease-out;
+
+        i {
+            position: absolute;
+            top: 17px;
+            left: 16px;
+        }
+        .fa-chevron-down {
+            right: 12px;
+            left: auto;
+        }
+    }
+
+    #auth {
+        border-bottom: 0.4px solid #ccc;
+    }
+
+    .submenuItems {
+        display: none;
+        background: white;
+        li {
+            border-bottom: 1px solid #B6B6B6;
+        }
+    }
+
+    .submenuItems a {
+        display: block;
+        color: #818181;
+        padding: 9px 9px 9px 0px;
+        transition: all 0.2s ease-out;
+    }
+    /* 아코디언 메뉴 디자인 끝 */
+
+    .add-folder-button {
+        background-color: #22923B;
+        border: none;
+        color: white;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .add-folder-button:hover {
+        background-color: #3f8f4298;
+    }
+
+    .popup-alert {
+        top: 1.1%;
+        width: 270px;
+        position: absolute;
+        left: 30%;
+        transform:translateX(-20%);
+
+        z-index: 5;
+        padding: 10px;
+
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        justify-content:center;
+
+        border-radius: 15px;
+        background-color: #22923B;
+        color: white;
+
+        text-align: center;
+
+        display: none;
+        box-shadow: 0px 10px 15px -9px rgba(0,0,0,0.75);
+        position: fixed;
+        user-select:none;
+    }
+
+    .copy-success{
+        background-color: #22923B;
+    }
+
+    .delete-error {
+        background-color: #EC4949;
+        justify-content:center;
+    }
+
+    .reset {
+        background-color: #EC4949;
+        justify-content:center;
+    }
+
+    .topbar {
+        margin-top: 3px;
+        margin-bottom: 50px;
+        padding: 10px;
+        height: 40px;
+        width: 100%;
+        user-select: none;
+        z-index: 0;
+    }
+
+
+/* Test Circle Menu */
+
+a.circle-float:hover { text-decoration:none !important }
+
+a.circle-submenu-a:hover { text-decoration:none !important }
+
+.label-container{
+	position:fixed;
+	bottom:48px;
+	right:105px;
+	display:table;
+	visibility: hidden;
+}
+
+.label-text{
+	color:#FFF;
+	background:rgba(51,51,51,0.5);
+	display:table-cell;
+	vertical-align:middle;
+	padding:10px;
+	border-radius:3px;
+}
+
+.label-arrow{
+	display:table-cell;
+	vertical-align:middle;
+	color:#333;
+	opacity:0.5;
+}
+
+/* 하단 원형 메뉴 */
+.circle-float{
+	position: fixed;
+	width: 30px;
+	height: 30px;
+	bottom: 10%; /* 바닥간 거리 조정 */
+    right: 20px;
+	background-color:#22923B;
+	color:#FFF;
+	border-radius: 50px;
+	text-align: center;
+	box-shadow: 2px 2px 3px #999;
+    z-index: 2;
+    user-select: none;
+	/*animation: bot-to-top 1s ease-out;*/
+}
+
+/* 바닥 메뉴 */
+.circle-submenu-ul {
+	position:fixed;
+	right: 20px;
+	padding-bottom: 17%;
+	bottom: 5%; /* 바닥간 거리 조정 */
+    z-index: 3;
+}
+
+.circle-submenu-ul .circle-submenu-li{
+	list-style: none;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+/* 메뉴 아이콘 */
+.circle-submenu-ul
+.circle-submenu-li
+.circle-submenu-a{
     display: block;
-    padding: 15px 15px 15px 0px;
-    font-size: 18px;
-    border-bottom: 0.1px solid #ccc;
-    color: #212121;
+    width: 120px;
+    height: 37px;
+    background-color:#22923B;
+    box-shadow: 2px 2px 3px #999;
+    border-radius: 50px;
+    color:#FFF;
+    padding-top: 5%;
+    text-align: center;
+    user-select: none;
+}
+
+.circle-submenu-ul:hover{
+	visibility: visible!important;
+	opacity: 1!important;
+}
+
+a#circle-menu + .circle-submenu-ul{
+  visibility: hidden;
+}
+
+a#circle-menu:hover + .circle-submenu-ul{
+  visibility: visible;
+  animation: scale-in 0.3s;
+}
+
+/*
+a#circle-menu i{
+	animation: rotate-in 0.5s;
+}
+
+a#circle-menu:hover > i{
+	animation: rotate-out 0.5s;
+}
+*/
+
+@keyframes bot-to-top {
+    0%   {bottom:-40px}
+    50%  {bottom:40px}
+}
+
+@keyframes scale-in {
+    from {transform: scale(0);opacity: 0;}
+    to {transform: scale(1);opacity: 1;}
+}
+
+/*
+@keyframes rotate-in {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+@keyframes rotate-out {
+    from {transform: rotate(360deg);}
+    to {transform: rotate(0deg);}
+}
+*/
+
+.clipboard-info-popup{
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    position: absolute;
+    z-index: 4;
+
+    transform: translate(13%, 10%);
+    border-radius: 5px;
+
+    display: none; /* none */ /* show */
+    border: 1px solid black;
+}
+
+.info-p{
+    top: 3%;
+    color:black;
+
+    text-align: center;
     position: relative;
-    transition: all 0.4s ease-out;
-    i {
-      position: absolute;
-      top: 17px;
-      left: 16px;
-    }
-    .fa-chevron-down {
-      right: 12px;
-      left: auto;
-    }
-  }
+    z-index: 4;
+    user-select: none;
+}
 
-  .submenuItems {
-    display: none;
-    background: white;
-    li {
-      border-bottom: 1px solid #B6B6B6;
-    }
-  }
+.info-textarea {
+    position: relative;
+    background: #eee;
+    border: 0.5px;
+    height: 80%;
+    width: 80%;
+    /*resize:horizontal;*/
+    transform: translate(13%, 5%);
+    resize: none;
+    user-select: none;
+}
 
-  .submenuItems a {
-    display: block;
-    color: #727272;
-    padding: 12px 12px 12px 0px;
-    transition: all 0.2s ease-out;
+.copy-ok {
+    position: fixeds;
+    background-color: rgb(33, 161, 61);
 
-    /*
-    &:hover {
-      background-color: #CDDC39;
-      color: #fff;
-    }
-    */
-  } /* 아코디언 메뉴 디자인 끝 */
+    transform: translate(7%, 95%);
 
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+    color: white;
+    font-weight: 700;
+    user-select: none;
+}
+
+.copy-ok:hover {
+    background-color: #3f8f42;
+    user-select: none;
+}
+
+.copy-cancel{
+    position: relative;
+    background-color: #E65438;  /*#EC4949;*/
+    float: right;
+    transform: translate(7%, 95%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+
+    color: white;
+    font-weight: 700;
+
+    user-select: none;
+}
+
+.copy-cancel:hover {
+    background-color: rgb(238, 101, 101);
+    user-select: none;
+}
+
+
+/* 폴더 저장 팝업 */
+.folder-save-info-popup {
+    width: 80%;
+    height: 20%;
+    min-height: 150px;
+    background-color: white;
+    position: absolute;
+    z-index: 4;
+
+    padding: 20px;
+    transform: translate(13%, 10%);
+    border-radius: 5px;
+
+    display: none; /* none */ /* show */
+    border: 1px solid black;
+    user-select: none;
+}
+
+.folder-save-ok {
+    position: fixeds;
+    background-color: rgb(33, 161, 61);
+
+    transform: translate(31%, 35%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+    color: white;
+    font-weight: 700;
+    user-select: none;
+
+}
+
+.folder-save-ok:hover {
+    background-color: #3f8f42;
+    user-select: none;
+}
+
+.folder-save-cancel {
+    position: relative;
+    background-color: #E65438;  /*#EC4949;*/
+    float: right;
+    transform: translate(37%, 35%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+
+    color: white;
+    font-weight: 700;
+    user-select: none;
+}
+
+.folder-save-cancel:hover {
+    background-color: rgb(238, 101, 101);
+    user-select: none;
+}
+
+
+.folder-list-select {
+    height: 30%;
+    width: 69.1%;
+    min-width: 20px;
+    float: center;
+    margin-left: 15.4%;
+    /*ma rgin: 10%;*/
+    z-index: 4;
+    user-select: none;
+}
+
+.folder-save-info-p {
+    text-align: center;
+    user-select: none;
+}
+
+.folderName-text{
+    width:70%;
+    border:none;
+    font-size:1em;
+    padding-left: 5px;
+    font-style: oblique;
+    display:inline;
+    outline:none;
+    box-sizing: border-box;
+    color:black;
+
+}
+.folderName-button{
+    width: 30%;
+    background-color: lightgray;
+    border:none;
+    background-color: white;
+    font-size:1em;
+    color:#3f8f42;
+    outline:none;
+    display:inline;
+    margin-left: -10px;
+    box-sizing: border-box;
+}
 
 </style>
-
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-sm navbar-light top-color" style="margin-bottom:0px">
-            <a class="navbar-brand" href="#">
-                <span style="color: white">나의 가는 길</span>
-            </a>
-            <!-- <i class="fas fa-bars"></i> -->
-            <span id="open-button" style="font-size:30px;cursor:pointer; float: right;">&#9776; </span>
-    </nav>
+<!-- POP-UP Alert -->
+<div class="popup-alert copy-success">클립보드에 성공적으로 복사했습니다. </div>
+<div class="popup-alert delete-error">처음 메모는 삭제할 수 없습니다. </div>
+<div class="popup-alert reset">현재 메모를 초기화 하였습니다. </div>
+<div class="popup-alert save">선택한 폴더에 저장하였습니다. </div>
+
+<!-- Save Folder Alert -->
+<div class="folder-save-info-popup">
+    <p class="folder-save-info-p"> 저장할 폴더를 지정해주세요. </p>
+    <select id="select-save-folder" class="folder-save folder-list-select">
+        <!-- <option selected>기본폴더</option>
+        <option>test1</option>
+        <option>test2</option>
+        -->
+    </select>
+    <p style="margin-right: 11%;">
+        <button class="folder-save-info-button folder-save-cancel">취소</button>
+        <button class="folder-save-info-button folder-save-ok">저장</button>
+    </p>
+</div>
+
+
+<!-- Save Clipboard Alert -->
+<div class="clipboard-info-popup" >
+    <p class="info-p"> 다음 내용이 클립보드에 저장됩니다.</p>
+    <textarea class="clipboard-info-popup info-textarea"></textarea>
+    <p style="margin-right: 11%;">
+        <button class="clipboard-info-button copy-cancel">취소</button>
+        <button class="clipboard-info-button copy-ok">복사</button>
+    </p>
+</div>
+
+<!-- Upper Bar -->
+<div class="topbar">
+    <p style="text-align: center;"  oncontextmenu="return false" onselectstart="return false" ondragstart="return false" >
+        <img src="/images/main_logo.png" id="main-logo" class="testbox" style="width: 170px;  margin: 10px;" >
+        <img src="/images/three-box.png" id="open-button" class="open-three-box-button" height="27" width="27" style="float:right; margin-top: 19px; margin-right: 17px; z-index: 2;">
+    </p>
+</div>
 
     <div id="overlay-back"></div>
     <div id="sidebar" class="sidenav">
         <div class="side-upperbar-background" >
-            <div class="sidebar-user-info"> apple님</div>
-            <a href="javascript:void(0)" id="close-button" class="closebtn"> &times; </a>
+            <div class="sidebar-user-info"> Welcome!</div>
+            <div style="width:30px; height:30px;" id="close-button" class="closebtn">
+                <img src="/images/remove_icon.png"  height="27" width="27">
+            </div>
         </div>
 
+        <ul id="all_folder_list" class="accordion-menu">
+     <li id="default_folder">
+         <div class="dropdownlink">
+             <i aria-hidden="true"></i>
+             <img src="/images/folder_main.png" width="27px" hegith="27px"> 기본폴더
+             <i aria-hidden="true"></i>
+         </div>
 
-        <ul class="accordion-menu">
-            <li>
-                <div class="dropdownlink"><i aria-hidden="true"></i>
-                    <img src="https://img.icons8.com/material/48/000000/opened-folder--v1.png" width="32px" hegith="32px"> 기본폴더
-                    <i aria-hidden="true"></i>
-                </div>
+         <ul class="submenuItems">
+         </ul>
+     </li>
 
-                <ul class="submenuItems">
-                    <li><a href="#"> <img src="https://img.icons8.com/ios/24/000000/file.png" width="20px" hegith="20px" > 서울 여행 </a></li>
-                    <li><a href="#"> 강원도 여행 </a></li>
-                    <li><a href="#"> 제주도 여행 </a></li>
-                </ul>
-            </li>
+     <li id="my_folder">
+         <div class="dropdownlink">
+             <i aria-hidden="true"></i>
+             <img src="/images/folder_main.png" width="27px" hegith="27px"> 나의 일정
+             <i aria-hidden="true"></i>
+         </div>
 
-            <li>
-                <div class="dropdownlink"><i aria-hidden="true"></i> 나의 일정
-                    <i aria-hidden="true"></i>
-                </div>
+         <ul class="submenuItems">
+         </ul>
+     </li>
 
-                <ul class="submenuItems">
-                    <li><a href="#"> Test1 </a></li>
-                    <li><a href="#"> Test2</a></li>
-                    <li><a href="#"> Test3</a></li>
-                </ul>
-            </li>
+     <li id="total_folder">
+         <div class="dropdownlink">
+             <img src="/images/folder_all.png" width="27px" hegith="27px"> 전체 폴더
+             <i aria-hidden="true"></i>
+         </div>
+     </li>
 
-            <li>
-                <div class="dropdownlink"><i aria-hidden="true"></i>
-                    <button type="button">폴더추가</button>
-                </div>
-            </li>
+     <li>
+         <div class="dropdownlink" style="padding-left: 45px;">
+             <i aria-hidden="true"></i>
+             <button id="addFolder" class="add-folder-button">폴더추가</button>
+             <button id="removeFolder" class="add-folder-button">폴더삭제</button>
+         </div>
+     </li>
 
-            <li>
-                <div class="dropdownlink"><i aria-hidden="true"></i> 로그아웃
-                </div>
-            </li>
+     <li id="addFolderForm" style="display:none">
+         <div class="dropdownlink">
+             <input id="folderNameSaveInput"type="text" placeholder="폴더 이름" autocomplete="off" class="folderName-text"/>
+             <button id="folderNamseSaveButton" class="folderName-button">저장</button>
+         </div>
+     </li>
 
-            <li>
-                <div class="dropdownlink"><i aria-hidden="true"></i> 고객센터
-                </div>
-            </li>
+     <li id="removeFolderForm" style="display:none">
+         <div class="dropdownlink">
+             <input id="folderNameRemoveInput" type="text" placeholder="폴더 이름" autocomplete="off" class="folderName-text"/>
+             <button id="folderNamseRemoveButton"class="folderName-button">제거</button>
+         </div>
+     </li>
 
-        </ul>
+ </ul>
     </div><!-- 사이드바 끝 -->
 
-
     <div>
-        <div>
-            <input id="memoTitle" type="text" class="form-control" id="usr" placeholder="서울 가는 길">
+        <div style="margin: 20px;">
+            <input id="memoTitle" type="text" class="form-control" id="usr" placeholder="서울 가는 길"  autocomplete="off" >
         </div>
         <div id="memoContainer">
             <div class="memoBox_0"></div>
         </div>
-        <div>
-            <button id="plusButton" type="button" class="btn btn-primary">Primary</button>
-        </div>
-        <div><br/></div>
+
+        <!-- Testing Button -->
+        <!--
+        <hr/>
         <div>
             <button id="clipBoard" type="button" class="btn btn-primary">ClipBoard</button>
         </div>
@@ -294,20 +785,41 @@ body {
             <button id="save" type="button" class="btn btn-primary">Save</button>
         </div>
         <div><br/></div>
-        <div>
-            <button id="load" type="button" class="btn btn-primary">Load</button>
-        </div>
+        -->
+        <!-- End Testing Button -->
     </div>
 
+    <!-- Bottom Circle Menu -->
+    <a href="#" class="circle-float" id="circle-menu">...</a>
+    <ul class="circle-submenu-ul">
+        <li class="circle-submenu-li">
+            <a href="#" class="circle-submenu-a" id="clipBoard">클립보드 복사</a>
+        </li>
+        <li class="circle-submenu-li">
+            <a href="#" class="circle-submenu-a" id="clear">초기화</a>
+        </li>
+        <li class="circle-submenu-li">
+            <a href="#" class="circle-submenu-a" id="save">메모 저장</a>
+        </li>
+    </ul>
 
+    <!-- Bottom Price Time Box -->
     <div class="wrap">
-        <div class="bottom-box shadow-3">
-            <div class="title" style="text-align:center" id="totalCostAndTime">총 시간: 75분, 총 금액: 22,0000</div>
+        <div class="bottom-background-box">
+            <div class="bottom-content-box-left">
+                <span class="bottom-box-title"> 총 시간</span>
+                <span class="bottom-box-content" id="totalTime">     시간     분</span>
+            </div>
+            <div class="bottom-content-box-right">
+                <span class="bottom-box-title"> 총 금액</span>
+                <span class="bottom-box-content" id="totalCost"> 원</span>
+            </div>
         </div>
     </div>
 
-
+    <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="js/accordion_menu.js"></script>
+    <script src="js/alert.js"></script>
 </body>
 </html>

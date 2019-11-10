@@ -8,51 +8,63 @@
                   <ul class="form-list">
                     <li class="form-list__row"> <!-- <label>출발</label> -->
                       <label class="select-map">
-                        <button class="toggle-visibility">
-                            <img src="../images/icon-02.png" width="23px" height="25px" align="right">
-                        </button>
-                        <input id = "source" type="text" placeholder="출발 장소" name=""/>
+                        <input id = "source" type="text" placeholder="출발 장소" name="" autocomplete="off"/>
+                          <button id="sourceButton" class="toggle-visibility" value="1">
+                              <img src="../images/icon-02-ver2.png" width="27px" height="27px" align="right" value="2">
+                          </button>
                       </label>
                     </li>
                     <li class="form-list__row"> <!-- <label>도착</label> -->
                       <label class="select-map">
-                          <button class="toggle-visibility">
-                              <img src="../images/icon-02.png" width="23px" height="25px" align="right">
+                          <button id="destButton" class="toggle-visibility" value="3">
+                              <img src="../images/icon-02-ver2.png" width="24px" height="24px" align="right" value="4"/>
                           </button>
-                        <input id = "dest" type="text" placeholder="도착 장소" name="" />
+                        <input id = "dest" type="text" placeholder="도착 장소" name="" autocomplete="off"/>
                       </label>
                     </li>
                     <li class="form-list__row form-list__row--inline"> <!-- <label>비용</label> -->
                       <div>
-                          <input id="cost" type="text" placeholder="비용"/>
+                          <input id="cost" type="text" placeholder="비용" autocomplete="off"/>
                       </div>
-                      <div> <!-- <label>시간</label> -->
-                        <input id="time" type="text" placeholder="시간" name="" />
+                      <div>                                           <!-- <label>시간</label> -->
+                        <input id="time_hour" type="text" placeholder="시" name="" autocomplete="off"/>
+                      </div>
+                      <div>                                           <!-- <label>시간</label> -->
+                        <input id="time_min" type="text" placeholder="분" name="" autocomplete="off"/>
                       </div>
                       <div>
                           <select id="transportation">
-                              <option value="택시">택시</option>
+                              <option value="기타" selected="selected">---</option>  
                               <option value="버스">버스</option>
                               <option value="기차">기차</option>
-                              <option value="전철">전철</option>
+                              <option value="전철">지하철</option>
+                              <option value="택시">택시</option>
                               <option value="도보">도보</option>
                               <option value="자전거">자전거</option>
-                              <option value="비행기">자전거</option>
                               <option value="기타">기타</option>
+
                           </select>
                       </div>
                     </li>
-                    <li class="form-list__row" align="right">
-                        <button style="border:none" align="right">
-                            <img src="../images/icon-03.png" width="25px" height="27px">
-                        </button>
-                        <button style="border:none" align="right">
+                    <li class="form-list__row" align="right" >
+                        <button id="createMemo" style="border:none; background-color: white;  user-select: none;" align="right" type="button">
                             <img src="../images/icon-05.png" width="25px" height="27px">
                         </button>
-                        <button style="border:none" align="right">
+                        <button id="deleteMemo" style="border:none; background-color: white;  user-select: none;" align="right" type="button">
                             <img src="../images/icon-04.png" width="25px" height="27px">
                         </button>
                     </li>
+                      <li class="form-list__row">
+                          <label class="select-map">
+                              <input id="subMemoInput" style="width:calc(100% - 10px); display:none" type="text" placeholder="간단 메모" autocomplete="off"/>
+                              <input id="subMemoHidden" style="width:calc(100% - 10px); display:none" type="text" autocomplete="off" value="false"/>
+                          </label>
+                      </li>
+                      <li style="display:none">
+                          <label class="select-map">
+                              <input id="memoNumber" style="width:calc(100% - 10px); display:none" type="text" autocomplete="off"/>
+                          </label>
+                      </li>
                   </ul>
                 </form>
               </div> <!-- END: .modal__content -->

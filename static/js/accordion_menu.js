@@ -9,18 +9,33 @@ function closeNav() {
 }
 
 $('#open-button').on('click', function () { 
-    $('#overlay, #overlay-back').fadeIn(100); 
+    $('#overlay, #overlay-back').fadeIn(100);
     $( '#sidebar' ).width( '250px' );
+
+    // 사이드바 활성화 되었을 때 스크롤 방지
+    $('#overlay-back').on('scroll touchmove mousewheel', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    });
+    $('#sidebar').on('scroll touchmove mousewheel', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    });      
+    $('html').css("overflow","hidden"); 
 });
 
 $('#close-button').on('click', function () { 
     $('#overlay, #overlay-back').hide();
     $('#sidebar').width( '0px' );
+    $('html').css("overflow","visible"); // 스크롤 보이기
 });
 
 $('#overlay-back').on('click', function () { 
     $('#overlay, #overlay-back').hide();
     $('#sidebar').width( '0px' );
+    $('html').css("overflow","visible"); 
 });
 
 

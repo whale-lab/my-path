@@ -7,14 +7,20 @@
   "default_locale" : "ko",
 
   "permissions": [
-  "storage"
+  "storage", "tabs"
   ],
 
-  "content_security_policy": "script-src 'self' https://code.jquery.com/jquery-3.2.1.min.js https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js ; object-src 'self'",
+  "web_accessible_resources": [
+    "static/css/*.css",
+    "images/*.png",
+    "inputform/css/*.css"
+  ],
+
+  "content_security_policy": "script-src 'self' https://github.com/GSoJC234/Whale_Extension/tree/dev/ https://developers.kakao.com/sdk/js/kakao.min.js https://code.jquery.com/jquery-3.2.1.min.js https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js ; object-src 'self' https://github.com/GSoJC234/Whale_Extension/tree/dev/",
   "sidebar_action" : {
     "default_page": "static/index.html",
     "default_icon" : {
-      "16": "images/icon16.png"
+      "16": "images/subicon16.png"
     },
     "default_title" : "SidebarApp",
     "use_navigation_bar" : false
