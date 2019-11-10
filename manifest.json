@@ -14,7 +14,7 @@
   "sidebar_action" : {
     "default_page": "static/index.html",
     "default_icon" : {
-      "16": "images/icon16.png"
+      "16": "images/subicon16.png"
     },
     "default_title" : "SidebarApp",
     "use_navigation_bar" : false
