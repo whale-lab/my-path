@@ -122,7 +122,7 @@ function createMemoBoxWithData(currElement, data) {
         });
         $(".memoBox_"+memoBoxIdx).find("#source").val(data[0]);
         $(".memoBox_"+memoBoxIdx).find("#dest").val(data[1]);
-        $(".memoBox_"+memoBoxIdx).find("#transportation select").val(data[2]);
+        $(".memoBox_"+memoBoxIdx).find("#transportation").val(data[2]).attr("selected", "selected");
         $(".memoBox_"+memoBoxIdx).find("#cost").val(data[3]);
         $(".memoBox_"+memoBoxIdx).find("#time_hour").val(data[4]);
         $(".memoBox_"+memoBoxIdx).find("#time_min").val(data[5]);
@@ -292,7 +292,7 @@ function loadMemos(memoKey){
 
         $(".memoBox_0").find("#source").val(firstMemoBox.split(" ")[0]);
         $(".memoBox_0").find("#dest").val(firstMemoBox.split(" ")[1]);
-        $(".memoBox_0").find("#transportation select").val(firstMemoBox.split(" ")[2]);
+        $(".memoBox_0").find("#transportation").val(firstMemoBox.split(" ")[2]).attr("selected", "selected");
         $(".memoBox_0").find("#cost").val(firstMemoBox.split(" ")[3]);
         $(".memoBox_0").find("#time_hour").val(firstMemoBox.split(" ")[4]);
         $(".memoBox_0").find("#time_min").val(firstMemoBox.split(" ")[5]);
