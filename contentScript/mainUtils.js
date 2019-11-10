@@ -254,7 +254,7 @@ function transformMemoIntoSaveData(parentNode){
 function updateFolders(){
     var parentNode = $("#all_folder_list")[0];
     $("#select-save-folder").empty();
-    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+    for(var idx = 0; idx < parentNode.children.length-2; idx++){
         var title = parentNode.children[idx].innerText;
         $("#select-save-folder").append("<option value='"+title+"'>"+title+"</option>");
     }
@@ -316,7 +316,7 @@ function updateFolderStructure(){
     var allFolder = {};
     var allFolderKey = "All_Folder";
     var allFolderValue = new Array();
-    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+    for(var idx = 0; idx < parentNode.children.length-2; idx++){
         allFolderValue[idx]=parentNode.children[idx].children[0].innerText.trim();
     }
     allFolder[allFolderKey] = allFolderValue;
@@ -324,7 +324,7 @@ function updateFolderStructure(){
         console.log("allFolder[allFolderKey] = " + allFolderValue );
     });
 
-    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+    for(var idx = 0; idx < parentNode.children.length-2; idx++){
         var folder= {};
         var folderKey=parentNode.children[idx].children[0].innerText.toString().trim();
         var folderValue = new Array();
@@ -396,6 +396,7 @@ function addFolder(){
         "                </ul>";
     var parentNode = $("#all_folder_list")[0];
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
+    updateFolderStructure();
 }
 
 function addFolderWithName(folderName){
@@ -415,7 +416,7 @@ function addFolderWithName(folderName){
 
 function getFolderNodeFromName(folderName){
     var parentNode = $("#all_folder_list")[0];
-    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+    for(var idx = 0; idx < parentNode.children.length-2; idx++){
         var title = parentNode.children[idx].children[0].innerText;
         if(title.trim().toString() == folderName.trim().toString()){
             return parentNode.children[idx];
@@ -426,7 +427,7 @@ function getFolderNodeFromName(folderName){
 function removeFolder(){
     var folderName = $("#folderNameRemoveInput").val();
     var parentNode = $("#all_folder_list")[0];
-    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+    for(var idx = 0; idx < parentNode.children.length-2; idx++){
         var title = parentNode.children[idx].children[0].innerText;
         if(title.trim().toString() == folderName.trim().toString()){
             parentNode.removeChild(parentNode.children[idx]);
