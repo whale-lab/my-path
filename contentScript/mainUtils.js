@@ -9,7 +9,9 @@ initialize();
 function initialize(){
     $(document).ready( function() {
         $(".memoBox_0").load("../inputform/memoBox.html", function(){
+            setSrcDestMemoValue("0");
             $(".memoBox_0").find("#sourceButton").on("click", function(event){
+                alert(event.target.parentNode.value);
                 var source = $(".memoBox_0").find("#source").val();
                 createTabMenu(source);
             });
@@ -64,12 +66,15 @@ function createMemoBox(currElement) {
     memoBoxDiv.setAttribute("class", "memoBox_"+(memoBoxIdx));
     currElement.parentNode.insertBefore(memoBoxDiv, currElement.nextSibling);
     $(".memoBox_"+memoBoxIdx).load("../inputform/memoBox.html", function(){
-        $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(){
-            var source = $(".memoBox_"+memoBoxIdx).find("#source").val();
+        setSrcDestMemoValue(memoBoxIdx.toString());
+        $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(event){
+            alert(event.target.parentNode.value);
+            var source = $(".memoBox_"+event.target.parentNode.value).find("#source").val();
             createTabMenu(source);
         });
-        $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(){
-            var dest = $(".memoBox_"+memoBoxIdx).find("#dest").val();
+        $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(event){
+            alert(event.target.parentNode.value);
+            var dest = $(".memoBox_"+event.target.parentNode.value).find("#dest").val();
             createTabMenu(dest);
         });
         $(".memoBox_"+memoBoxIdx).find("#cost").on("keyup", function(){
@@ -97,12 +102,15 @@ function createMemoBoxWithData(currElement, data) {
     memoBoxDiv.setAttribute("class", "memoBox_"+(memoBoxIdx));
     currElement.parentNode.insertBefore(memoBoxDiv, currElement.nextSibling);
     $(".memoBox_"+memoBoxIdx).load("../inputform/memoBox.html", function(){
-        $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(){
-            var source = $(".memoBox_"+memoBoxIdx).find("#source").val();
+        setSrcDestMemoValue(memoBoxIdx.toString());
+        $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(event){
+            alert(event.target.parentNode.value);
+            var source = $(".memoBox_"+event.target.parentNode.value).find("#source").val();
             createTabMenu(source);
         });
-        $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(){
-            var dest = $(".memoBox_"+memoBoxIdx).find("#dest").val();
+        $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(event){
+            alert(event.target.parentNode.value);
+            var dest = $(".memoBox_"+event.target.parentNode.value).find("#dest").val();
             createTabMenu(dest);
         });
         $(".memoBox_"+memoBoxIdx).find("#cost").on("keyup", function(){
@@ -128,6 +136,13 @@ function createMemoBoxWithData(currElement, data) {
         $(".memoBox_"+memoBoxIdx).find("#time_min").val(data[5]);
         memoBoxIdx += 1;
     });
+}
+
+function setSrcDestMemoValue(idx){
+    $(".memoBox_"+idx).find("#sourceButton").attr("value", idx);
+    $(".memoBox_"+idx).find("#sourceButtonIcon").attr("value", idx);
+    $(".memoBox_"+idx).find("#destButton").attr("value", idx);
+    $(".memoBox_"+idx).find("#destButtonIcon").attr("value", idx);
 }
 
 function deleteMemoBox(currElement){
