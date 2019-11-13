@@ -222,7 +222,7 @@ function clearAllMemos(parentNode){
 
     $(".memoBox_0").find("#source").val("");
     $(".memoBox_0").find("#dest").val("");
-    $(".memoBox_0").find("#transportation").val("---");
+    $(".memoBox_0").find("#transportation").val("기타").attr("selected", "selected");
     $(".memoBox_0").find("#cost").val("");
     $(".memoBox_0").find("#time_hour").val("");
     $(".memoBox_0").find("#time_min").val("");
