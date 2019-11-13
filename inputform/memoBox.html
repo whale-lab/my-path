@@ -53,15 +53,16 @@
                         <button id="deleteMemo" style="border:none; background-color: white;  user-select: none;" align="right" type="button">
                             <img src="../images/icon-04.png" width="25px" height="27px">
                         </button>
+                        <button id="subMemoButton" style="border:none; background-color: white;  user-select: none;" align="right" type="button" value="0">
+                            <img id="subMemoButtonIcon" src="../images/icon-03.png" width="25px" height="27px" value="0">
+                        </button>
                     </li>
                       <li class="form-list__row">
                           <label class="select-map">
-                              <input id="subMemoInput" style="width:calc(100% - 10px); display:none" type="text" placeholder="간단 메모" autocomplete="off" value="false"/>
+                              <input id="subMemoInput" style="width:calc(100% - 10px); display:none" type="text" placeholder="간단 메모" autocomplete="off"/>
                           </label>
-                      </li>
-                      <li style="display:none">
                           <label class="select-map">
-                              <input id="memoNumber" style="width:calc(100% - 10px); display:none" type="text" autocomplete="off"/>
+                              <input id="subMemoType" style="width:calc(100% - 10px); display:none" type="text" value="false"/>
                           </label>
                       </li>
                   </ul>

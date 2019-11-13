@@ -34,6 +34,16 @@ function initialize(){
             $(".memoBox_0").find("#deleteMemo").on("click", function(){ // 처음 메모 삭제 선택
                 $( ".delete-error" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
             });
+            $(".memoBox_0").find("#subMemoButton").on("click", function(event){ // 처음 메모 삭제 선택
+                var type = $(".memoBox_0").find("#subMemoType").val();
+                if(type == "false"){
+                    $(".memoBox_0").find("#subMemoInput").fadeIn(200);
+                    $(".memoBox_0").find("#subMemoType").val("true");
+                } else {
+                    $(".memoBox_0").find("#subMemoInput").fadeOut(200);
+                    $(".memoBox_0").find("#subMemoType").val("false");
+                }
+            });
         });
         $("#clipBoard").click(function(){
             copyToClipBoard($("#memoContainer")[0]);
@@ -92,6 +102,16 @@ function createMemoBox(currElement) {
         $(".memoBox_"+memoBoxIdx).find("#deleteMemo").on("click", function(){
             deleteMemoBox(memoBoxDiv);
         });
+        $(".memoBox_"+memoBoxIdx).find("#subMemoButton").on("click", function(event){ // 처음 메모 삭제 선택
+            var type = $(".memoBox_"+event.target.parentNode.value).find("#subMemoType").val();
+            if(type == "false"){
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoInput").fadeIn(200);
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoType").val("true");
+            } else {
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoInput").fadeOut(200);
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoType").val("false");
+            }
+        });
         memoBoxIdx += 1;
     });
 }
@@ -128,12 +148,23 @@ function createMemoBoxWithData(currElement, data) {
         $(".memoBox_"+memoBoxIdx).find("#deleteMemo").on("click", function(){
             deleteMemoBox(memoBoxDiv);
         });
+        $(".memoBox_"+memoBoxIdx).find("#subMemoButton").on("click", function(event){ // 처음 메모 삭제 선택
+            var type = $(".memoBox_"+event.target.parentNode.value).find("#subMemoType").val();
+            if(type == "false"){
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoInput").fadeIn(200);
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoType").val("true");
+            } else {
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoInput").fadeOut(200);
+                $(".memoBox_"+event.target.parentNode.value).find("#subMemoType").val("false");
+            }
+        });
         $(".memoBox_"+memoBoxIdx).find("#source").val(data[0]);
         $(".memoBox_"+memoBoxIdx).find("#dest").val(data[1]);
         $(".memoBox_"+memoBoxIdx).find("#transportation").val(data[2]).attr("selected", "selected");
         $(".memoBox_"+memoBoxIdx).find("#cost").val(data[3]);
         $(".memoBox_"+memoBoxIdx).find("#time_hour").val(data[4]);
         $(".memoBox_"+memoBoxIdx).find("#time_min").val(data[5]);
+        $(".memoBox_"+memoBoxIdx).find("#subMemoInput").val(data[6]);
         memoBoxIdx += 1;
     });
 }
@@ -143,6 +174,8 @@ function setSrcDestMemoValue(idx){
     $(".memoBox_"+idx).find("#sourceButtonIcon").attr("value", idx);
     $(".memoBox_"+idx).find("#destButton").attr("value", idx);
     $(".memoBox_"+idx).find("#destButtonIcon").attr("value", idx);
+    $(".memoBox_"+idx).find("#subMemoButton").attr("value", idx);
+    $(".memoBox_"+idx).find("#subMemoButtonIcon").attr("value", idx);
 }
 
 function deleteMemoBox(currElement){
@@ -226,8 +259,9 @@ function transformMemoIntoString(parentNode){
         var cost = $("."+className).find("#cost").val();
         var hour = $("."+className).find("#time_hour").val();
         var min = $("."+className).find("#time_min").val();
+        var subMemo = $("."+className).find("#subMemoInput").val();
 
-        str += "출발지 : " + source + "\n" + "도착지 : " + dest + "\n" + "이동수단 : " + transport + "\n" + "비용 : " + cost + "\n" + "시간 : " + hour + " 시간 " + min + " 분 " + "\n\n";
+        str += "출발지 : " + source + "\n" + "도착지 : " + dest + "\n" + "이동수단 : " + transport + "\n" + "비용 : " + cost + "\n" + "시간 : " + hour + " 시간 " + min + " 분 " + "\n"+"간단 메모 : "  + subMemo + "\n\n";
     }
 
     return str;
@@ -241,6 +275,7 @@ function clearAllMemos(parentNode){
     $(".memoBox_0").find("#cost").val("");
     $(".memoBox_0").find("#time_hour").val("");
     $(".memoBox_0").find("#time_min").val("");
+    $(".memoBox_0").find("#subMemoInput").val("");
 
     for(var i = 1; i < parentNode.children.length; i++){
         deleteMemoBox(parentNode.children[i]);
@@ -261,7 +296,8 @@ function transformMemoIntoSaveData(parentNode){
         var cost = $("."+className).find("#cost").val();
         var hour = $("."+className).find("#time_hour").val();
         var min = $("."+className).find("#time_min").val();
-        str += source + " " + dest +" " + transport + " " + cost + " " + hour + " " + min + "\n";
+        var subMemo = $("."+className).find("#subMemoInput").val();
+        str += source + " " + dest +" " + transport + " " + cost + " " + hour + " " + min + " " + subMemo + "\n";
     }
     return str;
 }
@@ -311,6 +347,7 @@ function loadMemos(memoKey){
         $(".memoBox_0").find("#cost").val(firstMemoBox.split(" ")[3]);
         $(".memoBox_0").find("#time_hour").val(firstMemoBox.split(" ")[4]);
         $(".memoBox_0").find("#time_min").val(firstMemoBox.split(" ")[5]);
+        $(".memoBox_0").find("#subMemoInput").val(firstMemoBox.split(" ")[6]);
 
         var numMemo = value.split("\n").length;
         for(var i = 3; i < numMemo ; i++){
