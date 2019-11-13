@@ -213,7 +213,8 @@
       padding: 10px 10px; }
 
 
-.select-map{ position: relative; }
+.select-map{ position: relative; 
+  font-size: 13px; }
 .select-map button.toggle-visibility{
   background: none;
   border: none;
@@ -222,7 +223,7 @@
   font-size: 0.75em;
   line-height: 1em;
   */
-
+  
   position: absolute;
   top: 50%;
   right: 0.3em;
