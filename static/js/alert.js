@@ -71,5 +71,7 @@ $( ".folder-save-ok" ).click(function() {
     $('.folder-save-info-popup').fadeOut(200);
     $( ".save" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
     var folderName = $("#select-save-folder").val();
+    var totalFolderName = "전체 폴더";
     saveMemos($("#memoContainer")[0], folderName);
+    saveMemos($("#memoContainer")[0], totalFolderName);
 });
