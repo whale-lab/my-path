@@ -11,7 +11,6 @@ function initialize(){
         $(".memoBox_0").load("../inputform/memoBox.html", function(){
             setSrcDestMemoValue("0");
             $(".memoBox_0").find("#sourceButton").on("click", function(event){
-                alert(event.target.parentNode.value);
                 var source = $(".memoBox_0").find("#source").val();
                 createTabMenu(source);
             });
