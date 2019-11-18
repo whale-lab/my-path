@@ -185,10 +185,12 @@ function deleteMemoBox(currElement){
 }
 
 function createTabMenu(query){
+
     whale.tabs.create({
         url:"https://map.naver.com/v5/search/"+query+"?",
         selected:true  // We open the tab in the background
     })
+    whale.sidebarAction.show();
 }
 
 function calculateTotalCost(parentNode){

@@ -18,11 +18,13 @@ $('#open-button').on('click', function () {
         event.stopPropagation();
         return false;
     });
+    /*
     $('#sidebar').on('scroll touchmove mousewheel', function(event) {
         event.preventDefault();
         event.stopPropagation();
         return false;
-    });      
+    });
+    */      
     $('html').css("overflow","hidden"); 
 });
 

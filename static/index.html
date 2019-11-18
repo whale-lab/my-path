@@ -25,7 +25,6 @@
     <script type = "text/javascript" src="../contentScript/mainUtils.js"></script>
     <!------------------------------------------------------------------------------------------------------------------>
 <style>
-
     html, button, input {
         font-family: 'NanumSquare', sans-serif;
     }
@@ -78,6 +77,7 @@
         padding: 10px;
         background: #93C365;
         z-index: 2;
+        user-select: none;
     }
 
     .bottom-content-box-left {
@@ -122,7 +122,6 @@
         float: right;
         color: #22923B;
     }
-
 
     #overlay-back {
         position   : absolute;
@@ -172,7 +171,6 @@
     .sidenav a:hover {
         color: rgb(33, 161, 61);
     }
-
 
     .sidenav .closebtn {
         /*position: absolute;*/
@@ -613,7 +611,6 @@ a#circle-menu:hover > i{
     user-select: none;
 }
 
-
 .folder-list-select {
     height: 30%;
     width: 69.1%;
@@ -655,6 +652,21 @@ a#circle-menu:hover > i{
     box-sizing: border-box;
 }
 
+.clean-popup{
+    width: 80%;
+    height: 15%;
+    background-color: white;
+    position: absolute;
+    z-index: 4;
+
+    transform: translate(13%, 30%);
+    border-radius: 5px;
+
+    display: none; /* none */ /* show */
+    border: 1px solid black;
+}
+
+
 </style>
 </head>
 <body>
@@ -682,13 +694,22 @@ a#circle-menu:hover > i{
     
 <!-- Save Clipboard Alert -->
 <div class="clipboard-info-popup" >
-    <p class="info-p"> 다음 내용이 클립보드에 저장됩니다.</p>
-    <textarea class="clipboard-info-popup info-textarea"></textarea>
+    <p class="info-p clipboard-p"> 다음 내용이 클립보드에 저장됩니다.</p>
     <p style="margin-right: 11%;">
         <button class="clipboard-info-button copy-cancel">취소</button>
         <button class="clipboard-info-button copy-ok">복사</button>
     </p>
 </div>
+
+<!-- Clean Alert -->
+<div class="clean-popup" >
+    <p class="info-p"> 정말로 현재 메모를 초기화하시겠습니까? </p>
+    <p style="margin-right: 11%;">
+        <button class="clipboard-info-button copy-cancel">취소</button>
+        <button class="clipboard-info-button copy-ok">확인</button>
+    </p>
+</div>
+<!------------------------------------------------ END ALERT ------------------------------------------------>
 
 <!-- Upper Bar -->
 <div class="topbar">
