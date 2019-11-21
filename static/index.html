@@ -136,6 +136,20 @@
         display   : none;
     }
 
+    #overlay-over-sidebar {
+        position   : absolute;
+        top        : 0;
+        left       : 0;
+        width      : 100%;
+        height     : 100%;
+        background : #000;
+        opacity    : 0.6;
+        filter     : alpha(opacity=30);
+        z-index    : 15; 
+        display    : none;
+    }
+
+
     #overlay {
         position : absolute;
         top      : 0;
@@ -295,7 +309,7 @@
         left: 30%;
         transform:translateX(-20%);
 
-        z-index: 5;
+        z-index: 15;
         padding: 10px;
 
         margin-left: auto;
@@ -464,7 +478,7 @@ a#circle-menu:hover > i{
 }
 */
 
-.clipboard-info-popup{
+.clipboard-info-popup {
     width: 80%;
     height: 80%;
     background-color: white;
@@ -478,7 +492,7 @@ a#circle-menu:hover > i{
     border: 1px solid black;
 }
 
-.info-p{
+.info-p {
     top: 3%;
     color:black;
 
@@ -517,6 +531,7 @@ a#circle-menu:hover > i{
     user-select: none;
 }
 
+
 .copy-ok:hover {
     background-color: #3f8f42;
     user-select: none;
@@ -550,7 +565,7 @@ a#circle-menu:hover > i{
 /* 폴더 저장 팝업 */
 .folder-save-info-popup {
     width: 80%;
-    height: 20%;
+    height: 10%;
     min-height: 150px;
     background-color: white;
     position: absolute;
@@ -612,7 +627,7 @@ a#circle-menu:hover > i{
 }
 
 .folder-list-select {
-    height: 30%;
+    height: 25%;
     width: 69.1%;
     min-width: 20px;
     float: center;
@@ -667,6 +682,88 @@ a#circle-menu:hover > i{
 }
 
 
+/**** 폴더 삭제 CSS ****/
+.folder-remove-info-popup {
+    width: 80%;
+    height: 17%;
+    min-height: 150px;
+    background-color: white;
+    position: absolute;
+    z-index: 20;
+
+    padding: 20px;
+    transform: translate(13%, 47%);
+    border-radius: 5px;
+
+    display: none; /* none */ /* show */
+    border: 1px solid black;
+    user-select: none;
+}
+
+.folder-remove-info-p {
+    text-align: center;
+    user-select: none;
+}
+
+.folder-remove-cancel {
+    position: relative;
+    background-color: #E65438;  /*#EC4949;*/
+    float: right;
+    transform: translate(10%, 55%);
+
+    height: 35px;
+    width: 50px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+
+    color: white;
+    font-weight: 700;
+
+    user-select: none;
+}
+
+.folder-remove-cancel:hover {
+    background-color: rgb(238, 101, 101);
+    user-select: none;
+}
+
+.folder-remove-ok {
+    position: fixeds;
+    background-color: rgb(33, 161, 61);
+
+    transform: translate(1%, 55%);
+
+    height: 35px;
+    width: 85px;
+    margin: 5, 5, 5, 30px;
+    padding: 4px 4px 4px 4px;
+    float: right;
+    border: 1px solid white;
+    color: white;
+    font-weight: 700;
+    user-select: none;
+}
+
+.folder-remove-ok:hover {
+    background-color: #3f8f42;
+    user-select: none;
+}
+
+#remove-select {
+    height: 25%;
+    width: 69.1%;
+    min-width: 20px;
+    float: center;
+    margin-left: 15.4%;
+    user-select: none;
+}
+
+.remove-directory{
+    z-index: 20;
+}
+
 </style>
 </head>
 <body>
@@ -676,6 +773,9 @@ a#circle-menu:hover > i{
 <div class="popup-alert delete-error">처음 메모는 삭제할 수 없습니다. </div>
 <div class="popup-alert reset">현재 메모를 초기화 하였습니다. </div>
 <div class="popup-alert save">선택한 폴더에 저장하였습니다. </div>
+<div class="popup-alert make-directory">새 폴더를 생성하였습니다. </div>
+<div class="popup-alert remove-directory">폴더를 성공적으로 삭제했습니다. </div>
+
 
 <!-- Save Folder Alert -->
 <div class="folder-save-info-popup">
@@ -695,13 +795,14 @@ a#circle-menu:hover > i{
 <!-- Save Clipboard Alert -->
 <div class="clipboard-info-popup" >
     <p class="info-p clipboard-p"> 다음 내용이 클립보드에 저장됩니다.</p>
+    <textarea class="clipboard-info-popup info-textarea"></textarea>
     <p style="margin-right: 11%;">
         <button class="clipboard-info-button copy-cancel">취소</button>
         <button class="clipboard-info-button copy-ok">복사</button>
     </p>
 </div>
 
-<!-- Clean Alert -->
+<!-- Clean Alert : TODO -->
 <div class="clean-popup" >
     <p class="info-p"> 정말로 현재 메모를 초기화하시겠습니까? </p>
     <p style="margin-right: 11%;">
@@ -709,6 +810,29 @@ a#circle-menu:hover > i{
         <button class="clipboard-info-button copy-ok">확인</button>
     </p>
 </div>
+
+<!-- Save Folder Alert : TODO -->
+<div class="folder-remove-info-popup">
+    <p class="folder-remove-info-p"> 삭제할 폴더를 선택해주세요. </p>
+    <div id="folder-select-div"> <!-- Select tag will be appear bellow -->
+
+    </div>
+    <p style="margin-right: 25%;">
+        <button class="folder-remove-info-button folder-remove-cancel">취소</button>
+        <button class="folder-remove-info-button folder-remove-ok">폴더 삭제</button>
+    </p>
+</div>
+
+<!-- REF. remove
+<button id="btn-select" class="folder-remove-button">폴더 삭제</button>
+<button id="btn-select-2" class="folder-remove-button">취소</button>
+-->
+
+<!-- 기존버전
+             <button id="addFolder" class="add-folder-button">폴더추가</button>
+             <button id="removeFolder" class="add-folder-button">폴더삭제</button>
+-->
+
 <!------------------------------------------------ END ALERT ------------------------------------------------>
 
 <!-- Upper Bar -->
@@ -720,6 +844,8 @@ a#circle-menu:hover > i{
 </div>
 
     <div id="overlay-back"></div>
+    <div id="overlay-over-sidebar"></div>
+
     <div id="sidebar" class="sidenav">
         <div class="side-upperbar-background" >
             <div class="sidebar-user-info"> Welcome!</div>
@@ -764,7 +890,10 @@ a#circle-menu:hover > i{
          <div class="dropdownlink" style="padding-left: 45px;">
              <i aria-hidden="true"></i>
              <button id="addFolder" class="add-folder-button">폴더추가</button>
+             <!-- Old version
              <button id="removeFolder" class="add-folder-button">폴더삭제</button>
+             -->
+             <button id="removeFolder-v2" class="add-folder-button">폴더삭제</button>
          </div>
      </li>
 
@@ -824,6 +953,8 @@ a#circle-menu:hover > i{
             <a href="#" class="circle-submenu-a" id="save">메모 저장</a>
         </li>
     </ul>
+
+TEST-1.27ver(Alpha)
 
     <!-- Bottom Price Time Box -->
     <div class="wrap">

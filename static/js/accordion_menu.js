@@ -1,5 +1,3 @@
-// 제이쿼리로 수정
-
 function openNav() {
     document.getElementById("sidebar").style.width = "250px";
 }
@@ -67,6 +65,5 @@ Accordion.prototype.dropdown = function(e) {
     $el.find('.submenuItems').not($next).slideUp().parent().removeClass('open');
     }
 }
-
     var accordion = new Accordion($('.accordion-menu'), false);
 })
