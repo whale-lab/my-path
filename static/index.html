@@ -343,6 +343,11 @@
         justify-content:center;
     }
 
+    .make-same-name-directory {
+        background-color: #EC4949;
+        justify-content:center;
+    }
+
     .topbar {
         margin-top: 3px;
         margin-bottom: 50px;
@@ -775,6 +780,7 @@ a#circle-menu:hover > i{
 <div class="popup-alert save">선택한 폴더에 저장하였습니다. </div>
 <div class="popup-alert make-directory">새 폴더를 생성하였습니다. </div>
 <div class="popup-alert remove-directory">폴더를 성공적으로 삭제했습니다. </div>
+<div class="popup-alert make-same-name-directory">이미 존재하는 폴더 이름입니다. </div>
 
 
 <!-- Save Folder Alert -->
@@ -858,23 +864,21 @@ a#circle-menu:hover > i{
      <li id="default_folder">
          <div class="dropdownlink">
              <i aria-hidden="true"></i>
-             <img src="/images/folder_main.png" width="27px" hegith="27px"> 기본폴더
+             <img src="/images/folder_main.png" width="27px" hegith="27px"> 기본 폴더
              <i aria-hidden="true"></i>
          </div>
 
-         <ul class="submenuItems">
-         </ul>
+         <ul class="submenuItems"></ul>
      </li>
 
      <li id="my_folder">
          <div class="dropdownlink">
              <i aria-hidden="true"></i>
-             <img src="/images/folder_main.png" width="27px" hegith="27px"> 나의 일정
+             <img src="/images/folder_main.png" width="27px" hegith="27px"> 나의 폴더
              <i aria-hidden="true"></i>
          </div>
 
-         <ul class="submenuItems">
-         </ul>
+         <ul class="submenuItems"></ul>
      </li>
 
      <li id="total_folder">
@@ -882,14 +886,13 @@ a#circle-menu:hover > i{
              <img src="/images/folder_all.png" width="27px" hegith="27px"> 전체 폴더
              <i aria-hidden="true"></i>
          </div>
-         <ul class="submenuItems">
-         </ul>
+         <ul class="submenuItems"></ul>
      </li>
 
      <li>
          <div class="dropdownlink" style="padding-left: 45px;">
              <i aria-hidden="true"></i>
-             <button id="addFolder" class="add-folder-button">폴더추가</button>
+             <button id="addFolderButton" class="add-folder-button">폴더추가</button>
              <!-- Old version
              <button id="removeFolder" class="add-folder-button">폴더삭제</button>
              -->

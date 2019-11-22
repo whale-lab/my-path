@@ -61,7 +61,7 @@ function initialize(){
             removeFolder();
             $("#removeFolderForm").fadeOut(100);
         });
-        $("#addFolder").click(function(){
+        $("#addFolderButton").click(function(){
             $("#addFolderForm").fadeIn(100);
         });
         $("#removeFolder").click(function(){
@@ -77,12 +77,10 @@ function createMemoBox(currElement) {
     $(".memoBox_"+memoBoxIdx).load("../inputform/memoBox.html", function(){
         setSrcDestMemoValue(memoBoxIdx.toString());
         $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(event){
-            alert(event.target.parentNode.value);
             var source = $(".memoBox_"+event.target.parentNode.value).find("#source").val();
             createTabMenu(source);
         });
         $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(event){
-            alert(event.target.parentNode.value);
             var dest = $(".memoBox_"+event.target.parentNode.value).find("#dest").val();
             createTabMenu(dest);
         });
@@ -123,12 +121,10 @@ function createMemoBoxWithData(currElement, data) {
     $(".memoBox_"+memoBoxIdx).load("../inputform/memoBox.html", function(){
         setSrcDestMemoValue(memoBoxIdx.toString());
         $(".memoBox_"+memoBoxIdx).find("#sourceButton").on("click", function(event){
-            alert(event.target.parentNode.value);
             var source = $(".memoBox_"+event.target.parentNode.value).find("#source").val();
             createTabMenu(source);
         });
         $(".memoBox_"+memoBoxIdx).find("#destButton").on("click", function(event){
-            alert(event.target.parentNode.value);
             var dest = $(".memoBox_"+event.target.parentNode.value).find("#dest").val();
             createTabMenu(dest);
         });
@@ -307,16 +303,28 @@ function updateFolders(){
     var parentNode = $("#all_folder_list")[0];
     $("#select-save-folder").empty();
     for(var idx = 0; idx < parentNode.children.length-3; idx++){
-        var title = parentNode.children[idx].innerText;
+        var title = parentNode.children[idx].children[0].innerText;
         $("#select-save-folder").append("<option value='"+title+"'>"+title+"</option>");
     }
+}
+
+function defaultMemoKey(folderName){
+    var count = 1;
+    var parentNode = getFolderNodeFromName(folderName);
+    for(var idx = 0; idx < parentNode.children[1].children.length; idx++){
+        var memoTitle = parentNode.children[1].children[idx].innerText.trim();
+        if(memoTitle.match("나의 일정-").length > 0){
+            count++;
+        }
+    }
+    return "나의 일정-"+count;
 }
 
 function saveMemos(parentNode, folderName){
     var memoObject = {};
     var memoKey = $("#memoTitle").val();
-    if(memoKey.length==0)
-        memoKey = "기본 일정";
+    if(memoKey.length == 0)
+        memoKey = defaultMemoKey(folderName);
     var value = transformMemoIntoSaveData(parentNode);
     memoObject[memoKey] = value;
 
@@ -327,7 +335,9 @@ function saveMemos(parentNode, folderName){
         menuElement.onclick = function(){
             loadMemos(memoKey);
         };
-        parentNode.insertBefore(menuElement, parentNode.lastChild.nextSibling);
+        console.log(menuElement);
+        console.log(parentNode);
+        parentNode.insertBefore(menuElement, parentNode.lastChild);
         updateFolderStructure();
     });
 }
@@ -402,7 +412,7 @@ function initFolderStructure(){
             console.log(folderNames);
             for(var idx = 0; idx < folderNames.length; idx++){
                 var name = folderNames[idx];
-                if(name == "기본폴더" || name == "나의 일정" || name =="전체 폴더")
+                if(name == "기본 폴더" || name == "나의 폴더" || name =="전체 폴더")
                     continue;
                 addFolderWithName(name);
             }
@@ -425,7 +435,7 @@ function initFolderStructure(){
                                 loadMemos(memoKey);
                             };
                             var parentNode = getFolderNodeFromName(Object.keys(result2)[0]).children[1];
-                            parentNode.insertBefore(menuElement, parentNode.lastChild.nextSibling);
+                            parentNode.insertBefore(menuElement, parentNode.lastChild);
                         }
                     }
                 });
@@ -435,18 +445,53 @@ function initFolderStructure(){
     });
 }
 
+function nonValidFolderName(folderName){
+    if(folderName.trim().length == 0){
+        return true;
+    }
+    var parentNode = $("#all_folder_list")[0];
+    for(var idx = 0; idx < parentNode.children.length-3; idx++){
+        var title = parentNode.children[idx].children[0].innerText;
+        if(title.trim().toString() == folderName.trim().toString()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function addFolder(){
-    var folderName = $("#folderNameSaveInput").val();
+    var folderName = " "+$("#folderNameSaveInput").val();
+    if(nonValidFolderName(folderName)){
+        $( ".make-same-name-directory" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
+        return false;
+    }
     var folderDiv = document.createElement('li');
     folderDiv.setAttribute("id", "customFolder_"+folderIdx);
-    folderDiv.innerHTML="                <div class=\"dropdownlink\">\n" +
-        "                    <i aria-hidden=\"true\"></i>\n" +
-        "                    <img src=\"/images/folder_main.png\" width=\"27px\" hegith=\"27px\"> "+folderName+"\n" +
-        "<i aria-hidden=\"true\"></i>\n" +
-        "                </div>\n" +
-        "\n" +
-        "                <ul class=\"submenuItems\">\n" +
-        "                </ul>";
+
+
+    var dropdownlink = document.createElement('div');
+    dropdownlink.setAttribute("class", "dropdownlink");
+    var ariaHidden = document.createElement('i');
+    ariaHidden.setAttribute('aria-hidden', 'true');
+    var ariaHidden2 = document.createElement('i');
+    ariaHidden2.setAttribute('aria-hidden', 'true');
+    var text = document.createTextNode(folderName);
+    var img = document.createElement('img');
+    img.setAttribute("src", "/images/folder_main.png");
+    img.setAttribute("width", "27px");
+    img.setAttribute("height", "27px");
+    dropdownlink.insertBefore(ariaHidden, null);
+    dropdownlink.insertBefore(img, null);
+    dropdownlink.insertBefore(text, null);
+    dropdownlink.insertBefore(ariaHidden2, null);
+
+    var submenuItems = document.createElement('ul');
+    submenuItems.setAttribute('class', 'submenuItems');
+
+
+    folderDiv.insertBefore(dropdownlink, null);
+    folderDiv.insertBefore(submenuItems, null);
+
     var parentNode = $("#all_folder_list")[0];
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
     updateFolderStructure();
@@ -456,14 +501,31 @@ function addFolder(){
 function addFolderWithName(folderName){
     var folderDiv = document.createElement('li');
     folderDiv.setAttribute("id", "customFolder_"+folderIdx);
-    folderDiv.innerHTML="                <div class=\"dropdownlink\">\n" +
-        "                    <i aria-hidden=\"true\"></i>\n" +
-        "                    <img src=\"/images/folder_main.png\" width=\"27px\" hegith=\"27px\"> "+folderName+"\n" +
-        "<i aria-hidden=\"true\"></i>\n" +
-        "                </div>\n" +
-        "\n" +
-        "                <ul class=\"submenuItems\">\n" +
-        "                </ul>";
+
+
+    var dropdownlink = document.createElement('div');
+    dropdownlink.setAttribute("class", "dropdownlink");
+    var ariaHidden = document.createElement('i');
+    ariaHidden.setAttribute('aria-hidden', 'true');
+    var ariaHidden2 = document.createElement('i');
+    ariaHidden2.setAttribute('aria-hidden', 'true');
+    var text = document.createTextNode(folderName);
+    var img = document.createElement('img');
+    img.setAttribute("src", "/images/folder_main.png");
+    img.setAttribute("width", "27px");
+    img.setAttribute("height", "27px");
+    dropdownlink.insertBefore(ariaHidden, null);
+    dropdownlink.insertBefore(img, null);
+    dropdownlink.insertBefore(text, null);
+    dropdownlink.insertBefore(ariaHidden2, null);
+
+    var submenuItems = document.createElement('ul');
+    submenuItems.setAttribute('class', 'submenuItems');
+
+
+    folderDiv.insertBefore(dropdownlink, null);
+    folderDiv.insertBefore(submenuItems, null);
+
     var parentNode = $("#all_folder_list")[0];
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
 }
