@@ -495,6 +495,7 @@ function addFolder(){
     var parentNode = $("#all_folder_list")[0];
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
     updateFolderStructure();
+    initAcordion();
     $( ".make-directory" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
 }
 
@@ -528,6 +529,7 @@ function addFolderWithName(folderName){
 
     var parentNode = $("#all_folder_list")[0];
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
+    initAcordion();
 }
 
 function getFolderNodeFromName(folderName){
