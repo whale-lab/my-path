@@ -444,7 +444,7 @@ function initFolderStructure(){
             console.log(folderNames);
             for(var idx = 0; idx < folderNames.length; idx++){
                 var name = folderNames[idx];
-                if(name == "기본 폴더" || name == "나의 폴더" || name =="전체 폴더")
+                if(name == "기본 폴더" || name == "나의 폴더")
                     continue;
                 addFolderWithName(name);
             }
@@ -517,7 +517,7 @@ function setAcordion(customFolderID){
             $el.find('.submenuItems').not($next).slideUp().parent().removeClass('open');
         }
     };
-    var accordion = new Accordion($('.accordion-menu'), false);
+    var accordion = new Accordion($('.accordion-menu'), true);
 }
 
 

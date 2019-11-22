@@ -64,7 +64,7 @@ function initAcordion(){
             $el.find('.submenuItems').not($next).slideUp().parent().removeClass('open');
         }
     };
-    var accordion = new Accordion($('.accordion-menu'), false);
+    var accordion = new Accordion($('.accordion-menu'), true);
 }
 
 $(initAcordion());
