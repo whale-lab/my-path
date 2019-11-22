@@ -328,18 +328,48 @@ function saveMemos(parentNode, folderName){
     var value = transformMemoIntoSaveData(parentNode);
     memoObject[memoKey] = value;
 
-    whale.storage.sync.set(memoObject, function() {
-        var parentNode = getFolderNodeFromName(folderName).children[1];
-        var menuElement = document.createElement('li');
-        menuElement.innerHTML = "<a href=\"#\"> <img src=\"/images/folder_sub.png\" width=\"12px\" hegith=\"12px\">  "+ memoKey +"</a></li>";
-        menuElement.onclick = function(){
-            loadMemos(memoKey);
-        };
-        console.log(menuElement);
-        console.log(parentNode);
-        parentNode.insertBefore(menuElement, parentNode.lastChild);
-        updateFolderStructure();
+
+    whale.storage.sync.get(memoKey, function(result){
+        if(Object.keys(result).length == 0){
+            whale.storage.sync.set(memoObject, function() {
+                var parentNode = getFolderNodeFromName(folderName).children[1];
+                var menuElement = document.createElement('li');
+                menuElement.innerHTML = "<a href=\"#\"> <img src=\"/images/folder_sub.png\" width=\"12px\" hegith=\"12px\">  "+ memoKey +"</a></li>";
+                menuElement.onclick = function(){
+                    loadMemos(memoKey);
+                };
+                console.log(menuElement);
+                console.log(parentNode);
+                parentNode.insertBefore(menuElement, parentNode.lastChild);
+                updateFolderStructure();
+            });
+        }
+        else {
+            whale.storage.sync.remove(memoKey, function(result){
+                var parentNode = getFolderNodeFromName(folderName).children[1];
+                for(var idx = 0; idx < parentNode.children.length; idx++){
+                    var removedTitle = parentNode.children[idx].innerText;
+                    if(removedTitle.trim() == memoKey.trim()){
+                        parentNode.removeChild(parentNode.children[idx]);
+                    }
+                }
+                whale.storage.sync.set(memoObject, function() {
+                    var parentNode = getFolderNodeFromName(folderName).children[1];
+                    var menuElement = document.createElement('li');
+                    menuElement.innerHTML = "<a href=\"#\"> <img src=\"/images/folder_sub.png\" width=\"12px\" hegith=\"12px\">  "+ memoKey +"</a></li>";
+                    menuElement.onclick = function(){
+                        loadMemos(memoKey);
+                    };
+                    console.log(menuElement);
+                    console.log(parentNode);
+                    parentNode.insertBefore(menuElement, parentNode.lastChild);
+                    updateFolderStructure();
+                });
+            });
+        }
     });
+
+
 }
 
 function loadMemos(memoKey){
