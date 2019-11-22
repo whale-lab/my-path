@@ -266,6 +266,8 @@ function transformMemoIntoString(parentNode){
 
 function clearAllMemos(parentNode){
 
+    $("#memoTitle").val("나의 일정");
+
     $(".memoBox_0").find("#source").val("");
     $(".memoBox_0").find("#dest").val("");
     $(".memoBox_0").find("#transportation").val("기타").attr("selected", "selected");
@@ -283,8 +285,8 @@ function clearAllMemos(parentNode){
     calculateTotalMin($("#memoContainer")[0]);
 }
 
-function transformMemoIntoSaveData(parentNode){
-    var str = $("#memoTitle").val()+"\n";
+function transformMemoIntoSaveData(parentNode, title){
+    var str = title + "\n";
     for(var i = 0; i < parentNode.children.length; i++){
         var className = parentNode.children[i].className;
         var source = $("."+className).find("#source").val();
@@ -325,7 +327,7 @@ function saveMemos(parentNode, folderName){
     var memoKey = $("#memoTitle").val();
     if(memoKey.length == 0)
         memoKey = defaultMemoKey(folderName);
-    var value = transformMemoIntoSaveData(parentNode);
+    var value = transformMemoIntoSaveData(parentNode, memoKey);
     memoObject[memoKey] = value;
 
 
