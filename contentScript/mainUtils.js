@@ -459,6 +459,37 @@ function nonValidFolderName(folderName){
     return false;
 }
 
+function setAcordion(customFolderID){
+    var Accordion = function(el, multiple) {
+        this.el = el || {};
+        // more then one submenu open?
+        this.multiple = multiple || false;
+
+        var dropdownlink = $("#"+customFolderID).find('.dropdownlink');
+        dropdownlink.on('click',
+            { el: this.el, multiple: this.multiple },
+            this.dropdown);
+    };
+
+    Accordion.prototype.dropdown = function(e) {
+        var $el = e.data.el,
+            $this = $(this),
+            //this is the ul.submenuItems
+            $next = $this.next();
+
+        $next.slideToggle();
+        $this.parent().toggleClass('open');
+
+        if(!e.data.multiple) {
+            //show only one menu at the same time
+            $el.find('.submenuItems').not($next).slideUp().parent().removeClass('open');
+        }
+    };
+    var accordion = new Accordion($('.accordion-menu'), false);
+}
+
+
+
 function addFolder(){
     var folderName = " "+$("#folderNameSaveInput").val();
     if(nonValidFolderName(folderName)){
@@ -494,8 +525,9 @@ function addFolder(){
 
     var parentNode = $("#all_folder_list")[0];
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
+    setAcordion("customFolder_"+folderIdx);
+    folderIdx++;
     updateFolderStructure();
-    initAcordion();
     $( ".make-directory" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
 }
 
@@ -529,7 +561,8 @@ function addFolderWithName(folderName){
 
     var parentNode = $("#all_folder_list")[0];
     parentNode.insertBefore(folderDiv, $("#my_folder")[0]);
-    initAcordion();
+    setAcordion("customFolder_"+folderIdx);
+    folderIdx++;
 }
 
 function getFolderNodeFromName(folderName){
@@ -549,6 +582,7 @@ function removeFolder(){
         var title = parentNode.children[idx].children[0].innerText;
         if(title.trim().toString() == folderName.trim().toString()){
             parentNode.removeChild(parentNode.children[idx]);
+            folderIdx--;
             break;
         }
     }
