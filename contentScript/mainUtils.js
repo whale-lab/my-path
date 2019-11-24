@@ -276,7 +276,7 @@ function clearAllMemos(parentNode){
     $(".memoBox_0").find("#time_min").val("");
     $(".memoBox_0").find("#subMemoInput").val("");
 
-    for(var i = 1; i < parentNode.children.length; i++){
+    for(var i = parentNode.children.length - 1; i >= 1; i--){
         deleteMemoBox(parentNode.children[i]);
     }
     memoBoxIdx = 1;
