@@ -2,7 +2,6 @@ $( "#success-btn" ).click(function() {
     $( ".popup-alert-copy" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
 });
 
-
 /*
 $( "#clear" ).click(function() {
     $( ".reset" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
@@ -73,8 +72,70 @@ $( ".folder-save-ok" ).click(function() {
     $('.folder-save-info-popup').fadeOut(200);
     $( ".save" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
     var folderName = $("#select-save-folder").val();
-    var totalFolderName = "전체 폴더";
     saveMemos($("#memoContainer")[0], folderName);
-    saveMemos($("#memoContainer")[0], totalFolderName);
 });
 
+
+
+/* SELECT-REMOVE 신규 기능 */
+function makeSelectFolderListTag(){
+    var parentFolderNode = $("#all_folder_list")[0];
+    var folderName = "";
+    var folderSelectTag = "<select id=\"remove-select\">";
+    for(var idx = 0; idx < parentFolderNode.children.length-3; idx++){
+        folderName = parentFolderNode.children[idx].children[0].innerText.trim();
+        folderSelectTag += "<option value=\"" + folderName + "\">";
+        folderSelectTag += folderName;
+        folderSelectTag += "</option>"
+    }
+    folderSelectTag += "</select>";
+    $("#folder-select-div").append(folderSelectTag); 
+}
+
+
+// 폴더 삭제 창 -> SELECT 박스 생성 
+$( "#removeFolder-v2" ).click(function() {
+    makeSelectFolderListTag();
+    //$("#folder-select-div").append(folderSelectTag); 
+});
+
+
+// 팝업창 [폴더 삭제]  -> 폴더 삭제 Action
+$( ".folder-remove-ok" ).click(function() {
+    var folderName = $("#remove-select option:selected").val()
+    var parentNode = $("#all_folder_list")[0];
+    for(var idx = 1; idx < parentNode.children.length-4; idx++){
+        var title = parentNode.children[idx].children[0].innerText;
+        if(title.trim().toString() == folderName.trim().toString()){
+            parentNode.removeChild(parentNode.children[idx]);
+            updateFolderStructure();
+            $( ".remove-directory" ).fadeIn( 200 ).delay( 900 ).fadeOut( 300 );
+            break;
+        }
+    }
+    
+    $("#remove-select").remove();
+    makeSelectFolderListTag();
+});
+
+
+// 아코디언 -> [폴더 삭제] 버튼 클릭했을 때
+$( "#removeFolder-v2" ).click(function() {
+    $('#overlay, #overlay-over-sidebar').fadeIn(100);
+    $('.folder-remove-info-popup').fadeIn(200);
+});
+
+// 팝업창 -> [취소] 버튼 클릭했을 때
+$( ".folder-remove-cancel" ).click(function() {
+    $('#overlay, #overlay-over-sidebar').fadeOut(100);
+    $('.folder-remove-info-popup').fadeOut(200);
+    $("#remove-select").remove();
+});
+
+// 팝업창 -> 검은 색깔을 클릭했을 때 
+$( "#overlay-over-sidebar" ).click(function() {
+    $('#overlay, #overlay-over-sidebar').fadeOut(100);
+    $('.folder-remove-info-popup').fadeOut(200);
+    $("#remove-select").remove();
+});
+/* END SELECT-REMOVE 신규 기능 */

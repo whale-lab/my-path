@@ -640,12 +640,11 @@ function makeSelectFolderListTag(){
 
 
 // 폴더 삭제 창 -> SELECT 박스 생성 
-/*
 $( "#removeFolder-v2" ).click(function() {
     makeSelectFolderListTag();
     //$("#folder-select-div").append(folderSelectTag); 
 });
-*/
+
 
 // 팝업창 [폴더 삭제]  -> 폴더 삭제 Action
 $( ".folder-remove-ok" ).click(function() {
@@ -668,10 +667,8 @@ $( ".folder-remove-ok" ).click(function() {
 
 // 아코디언 -> [폴더 삭제] 버튼 클릭했을 때
 $( "#removeFolder-v2" ).click(function() {
-    alert("123");
     $('#overlay, #overlay-over-sidebar').fadeIn(100);
     $('.folder-remove-info-popup').fadeIn(200);
-    makeSelectFolderListTag();
 });
 
 // 팝업창 -> [취소] 버튼 클릭했을 때

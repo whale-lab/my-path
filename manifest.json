@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "나의 가는 길",
-  "version" : "1.2.7",
+  "version" : "1.2.8",
 
   "description" : "나의 가는 길은 이동하는 경로를 메모하고 체계적으로 관리하는 경로 메모 앱입니다.",
   "default_locale" : "ko",
